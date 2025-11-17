@@ -11,6 +11,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
+using WellBeingDiary.Models;
 
 namespace WellBeingDiary.Windows
 {
@@ -19,9 +20,52 @@ namespace WellBeingDiary.Windows
     /// </summary>
     public partial class MainPageWindow : Window
     {
-        public MainPageWindow()
+        public User currentUser { get; set; }
+        public MainPageWindow(User user)
         {
             InitializeComponent();
+            currentUser = user;
+            this.DataContext = this;
+            ShowMainPage();
+        }
+        public void ShowMainPage()
+        {
+           // MainContent.Content = new MainPageContent(currentUser);
+        }
+
+        private void ViewProfileButton_Click(object sender, RoutedEventArgs e)
+        {
+           // MainContent.Content = new ProfilePage(currentUser);
+        }
+
+        private void MainPageButton_Click(object sender, RoutedEventArgs e)
+        {
+            ShowMainPage();
+        }
+
+        private void AddDataButton_Click(object sender, RoutedEventArgs e)
+        {
+            //Window addDataWindow = new AddDataWindow(currentUser);
+            //if (addDataWindow.ShowDialog() == true)
+            //    ShowMainPage();
+        }
+
+        private void MedControlButton_Click(object sender, RoutedEventArgs e)
+        {
+            //MainContent.Content = new MedicineControlPage(currentUser);
+        }
+
+        private void ReportsButton_Click(object sender, RoutedEventArgs e)
+        {
+            //Window reportWindow = new ReportMakeWindow(currentUser);
+            //reportWindow.ShowDialog();
+        }
+
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
+        {
+            MainWindow mainWindow = new MainWindow();
+            mainWindow.Show();
+            this.Close();
         }
     }
 }

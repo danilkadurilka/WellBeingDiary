@@ -27,7 +27,7 @@ namespace WellBeingDiary.Windows
             InitializeComponent();
             this.DataContext = newUser;
         }
-        private void btnAddPhoto_Click(object sender, RoutedEventArgs e)
+        private void AddPhotoButton_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png)|*.jpg;*.jpeg;*.png";
@@ -35,31 +35,28 @@ namespace WellBeingDiary.Windows
             if (openFileDialog.ShowDialog() == true)
             {
                 BitmapImage bitmap = new BitmapImage(new System.Uri(openFileDialog.FileName));
-                imgUserPhoto.Source = bitmap;
+                ImgUserPhoto.Source = bitmap;
                 newUser.PhotoPath = openFileDialog.FileName;
             }
         }
 
-        private void btnRegister_Click(object sender, RoutedEventArgs e)
+        private void RegButton_Click(object sender, RoutedEventArgs e)
         {
-            // Валидация данных
+
             if (string.IsNullOrEmpty(newUser.Name) || string.IsNullOrEmpty(newUser.Login))
             {
                 MessageBox.Show("Заполните обязательные поля");
                 return;
             }
 
-            // Установка ID и добавление пользователя
             newUser.Id = Models.AppContext.Users.Count > 0 ? Models.AppContext.Users.Max(u => u.Id) + 1 : 1;
 
-            // Преобразование даты рождения
-            if (dpBirthDate.SelectedDate.HasValue)
+            if (DPBirthDate.SelectedDate.HasValue)
             {
-                newUser.DateOfBirth = DateOnly.FromDateTime(dpBirthDate.SelectedDate.Value);
+                newUser.DateOfBirth = DateOnly.FromDateTime(DPBirthDate.SelectedDate.Value);
             }
 
-            // Установка пароля
-            var passwordBox = txtPassword;
+            var passwordBox = BoxPassword;
             newUser.Password = passwordBox.Password;
 
             Models.AppContext.Users.Add(newUser);
@@ -71,7 +68,7 @@ namespace WellBeingDiary.Windows
             this.Close();
         }
 
-        private void btnCancel_Click(object sender, RoutedEventArgs e)
+        private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             MainWindow mainWindow = new MainWindow();
             mainWindow.Show();
