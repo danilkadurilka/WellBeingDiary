@@ -40,12 +40,92 @@ namespace WellBeingDiary.UserControllers
         }
         public void UpdateDataDisplay()
         {
-            
+            if (todayData.SystolicPressure.HasValue && todayData.DiastolicPressure.HasValue)
+            {
+                string pulse = string.Empty;
+                if (todayData.Pulse.HasValue)
+                {
+                    pulse = $"{todayData.Pulse}";
+                }
+                BoxBloodPressure.Text = $"{todayData.SystolicPressure}/{todayData.DiastolicPressure}/{pulse}";
+            }
+            else { BoxBloodPressure.Text = "Не указано"; }
+                
+
+            if (todayData.Weight.HasValue)
+            {
+                BoxWeight.Text = $"{todayData.Weight} кг";
+            }
+            else { BoxWeight.Text = "Не указан"; }
+                
+
+            if (todayData.WellBeingRating.HasValue)
+            {
+                int? rating = todayData.WellBeingRating.Value;
+                string ratingText;
+
+                if (rating == 1)
+                {
+                    ratingText = "Плохое";
+                }
+                else if (rating == 2)
+                {
+                    ratingText = "Удовлетворительное";
+                }
+                else if (rating == 3)
+                {
+                    ratingText = "Нормальное";
+                }
+                else if (rating == 4)
+                {
+                    ratingText = "Хорошее";
+                }
+                else if (rating == 5)
+                {
+                    ratingText = "Отличное";
+                }
+                else
+                {
+                    ratingText = "Не указано";
+                }
+
+                BoxWellBeing.Text = $"{ratingText} ({rating}/5)";
+            }
+            else { BoxWellBeing.Text = "Не указано"; }
+
+
+            if (todayData.SleepStart.HasValue && todayData.SleepEnd.HasValue)
+            {
+                TimeSpan sleepTime = todayData.SleepEnd.Value - todayData.SleepStart.Value;
+                string quality = string.Empty;
+                if (todayData.SleepQuality.HasValue)
+                {
+                    quality = $", качество сна: {todayData.SleepQuality}/5";
+                }
+                BoxSleep.Text = $"{sleepTime.Hours}ч {sleepTime.Minutes}м{quality}";
+            }
+            else { BoxWellBeing.Text = "Не указан"; }
+
+            if (todayData.StepCount.HasValue)
+            { 
+                BoxSteps.Text = $"{todayData.StepCount} шагов";
+            }
+            else { BoxSteps.Text = "Не указано"; }
         }
         public void LoadMedicines()
         {
+            var medicines = Models.AppContext.Medicines?.Where(m => m.UserId == currentUser.Id && m.IsActive).ToList(); //var - это DbSet? List? 
 
+            if (medicines != null && medicines.Any())
+            {
+                ItemsMedicines.ItemsSource = medicines;
+                TextNoMedicines.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                ItemsMedicines.ItemsSource = null;
+                TextNoMedicines.Visibility = Visibility.Visible;
+            }
         }
-
     }
 }
