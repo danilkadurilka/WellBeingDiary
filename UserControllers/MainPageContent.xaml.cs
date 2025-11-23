@@ -40,6 +40,7 @@ namespace WellBeingDiary.UserControllers
         }
         public void UpdateDataDisplay()
         {
+            CurrentDateTextBlock.Text = "Сегодня " + currentDate.ToString("dd.MM.yyyy");
             if (todayData.SystolicPressure.HasValue && todayData.DiastolicPressure.HasValue)
             {
                 string pulse = string.Empty;

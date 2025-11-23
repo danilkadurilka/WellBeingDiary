@@ -14,10 +14,8 @@
                 <Run Text="{Binding currentUser.Name}"/>
                 <Run Text="!"/>
             </TextBlock>
-            
-            <TextBlock Margin="0 0 0 20">
-                <Run Text="Сегодня"/>
-                <Run Text="{Binding CurrentDate}"/>
+
+            <TextBlock Name="CurrentDateTextBlock" Margin="0 0 0 20">
             </TextBlock>
 
             <Grid>

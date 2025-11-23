@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using WellBeingDiary.Models;
+using WellBeingDiary.UserControllers;
 
 namespace WellBeingDiary.Windows
 {
@@ -30,12 +31,12 @@ namespace WellBeingDiary.Windows
         }
         public void ShowMainPage()
         {
-           // MainContent.Content = new MainPageContent(currentUser);
+           MainContent.Content = new MainPageContent(currentUser);
         }
 
         private void ViewProfileButton_Click(object sender, RoutedEventArgs e)
         {
-           // MainContent.Content = new ProfilePage(currentUser);
+           MainContent.Content = new ProfilePage(currentUser);
         }
 
         private void MainPageButton_Click(object sender, RoutedEventArgs e)
@@ -52,7 +53,7 @@ namespace WellBeingDiary.Windows
 
         private void MedControlButton_Click(object sender, RoutedEventArgs e)
         {
-            //MainContent.Content = new MedicineControlPage(currentUser);
+            MainContent.Content = new MedicineControlPage(currentUser);
         }
 
         private void ReportsButton_Click(object sender, RoutedEventArgs e)

@@ -32,28 +32,33 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="Имя" Margin="0 5"/>
-                <TextBox Grid.Row="0" Grid.Column="1" Name="BoxName" Height="25" Margin="0 5" Text="{Binding CurrentUser.Name}"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Name="BoxName" Height="25" Margin="0 5" Text="{Binding currentUser.Name}"/>
 
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Пол" Margin="0 5"/>
-                <ComboBox Grid.Row="1" Grid.Column="1" Name="ComboBoxGender" Height="25" Margin="0 5" SelectedValue="{Binding CurrentUser.Gender}">
+                <ComboBox Grid.Row="1" Grid.Column="1" Name="ComboBoxGender" Height="25" Margin="0 5" SelectedItem="{Binding currentUser.Gender}">
                     <ComboBoxItem Content="Мужской"/>
                     <ComboBoxItem Content="Женский"/>
                 </ComboBox>
 
                 <TextBlock Grid.Row="2" Grid.Column="0" Text="Рост (см)" Margin="0 5"/>
-                <TextBox Grid.Row="2" Grid.Column="1" Name="BoxHeight" Height="25" Margin="0 5" Text="{Binding CurrentUser.Height}"/>
+                <TextBox Grid.Row="2" Grid.Column="1" Name="BoxHeight" Height="25" Margin="0 5" Text="{Binding currentUser.Height}"/>
 
                 <TextBlock Grid.Row="3" Grid.Column="0" Text="Вес (кг)" Margin="0,5"/>
-                <TextBox Grid.Row="3" Grid.Column="1" Name="BoxWeight" Height="25" Margin="0 5" Text="{Binding CurrentUser.Weight}"/>
+                <TextBox Grid.Row="3" Grid.Column="1" Name="BoxWeight" Height="25" Margin="0 5" Text="{Binding currentUser.Weight}"/>
 
                 <TextBlock Grid.Row="4" Grid.Column="0" Text="Дата рождения" Margin="0 5"/>
-                <DatePicker Grid.Row="4" Grid.Column="1" Name="DPBirthDate" Height="25" Margin="0 5" SelectedDate="{Binding BirthDate}"/>
+                <DatePicker Grid.Row="4" Grid.Column="1" Name="DPBirthDate" Height="25" Margin="0 5"/>
 
                 <TextBlock Grid.Row="5" Grid.Column="0" Text="Логин" Margin="0 5"/>
-                <TextBox Grid.Row="5" Grid.Column="1" Name="BoxLogin" Height="25" Margin="0 5" Text="{Binding CurrentUser.Login}"/>
+                <TextBox Grid.Row="5" Grid.Column="1" Name="BoxLogin" Height="25" Margin="0 5" Text="{Binding currentUser.Login}"/>
 
                 <TextBlock Grid.Row="6" Grid.Column="0" Text="Пароль" Margin="0 5"/>
-                <PasswordBox Name="BoxPassword" Grid.Row="6" Grid.Column="1" Height="25" Margin="0 5"/>
+                <StackPanel Grid.Row="6" Grid.Column="1" Orientation="Horizontal">
+                    <PasswordBox Name="BoxPassword" Height="25" Margin="0 5" Width="180"/>
+                    <TextBox Name="BoxPasswordVisible" Height="25" Margin="0 5" Width="180" Visibility="Collapsed"/>
+                    <Button Name="ViewPasswordButton" Content="Показать" Width="70" Margin="5 5 0 5" Click="ViewPasswordButton_Click"
+                                            Background="White" Foreground="Black" BorderThickness="0"/>
+                </StackPanel>
             </Grid>
 
             <Button Name="SaveProfileButton" Content="Сохранить изменения" 

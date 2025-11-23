@@ -24,7 +24,6 @@
                                 <TextBlock Text="{Binding MedicineName}" FontWeight="Bold"/>
                                 <TextBlock Text="{Binding Dose}"/>
                                 <TextBlock Text="{Binding Instructions}"/>
-                                <TextBlock Text="{Binding StatusDisplay}"/>
                             </StackPanel>
                         </Border>
                     </DataTemplate>

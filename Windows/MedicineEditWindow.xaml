@@ -1,0 +1,49 @@
+﻿<Window x:Class="WellBeingDiary.Windows.MedicineEditWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WellBeingDiary.Windows"
+        mc:Ignorable="d"
+        Title="Редактирование лекарства" Height="500" Width="430"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <TextBlock Grid.Row="0" Text="Редактирование лекарства" FontSize="18" FontWeight="Bold" Margin="0 0 0 20"/>
+        <StackPanel Grid.Row="1">
+            <TextBlock Text="Название лекарства" Margin="0 5 0 5"/>
+            <TextBox Name="BoxMedicineName" Height="25" Margin="0 0 0 10"/>
+            <TextBlock Text="Дозировка лекарства" Margin="0 5 0 5"/>
+            <TextBox Name="BoxDose" Height="25" Margin="0 0 0 10"/>
+            <TextBlock Text="Краткие инструкции к лекарству" Margin="0 5 0 5"/>
+            <TextBox Name="BoxInstructions" Height="60" Margin="0 0 0 10"/>
+            <TextBlock Text="Дата начала приема" Margin="0 5 0 5"/>
+            <DatePicker Name="DPStartDate" Height="25" Margin="0 0 0 10"/>
+            <TextBlock Text="Дата окончания приема (не заполняйте, если принимаете постоянно)" Margin="0 5 0 5"/>
+            <DatePicker Name="DPEndDate" Height="25" Margin="0 0 0 10"/>
+            <CheckBox Name="BoxIsActive" Content="Сейчас принимается?" IsChecked="True" Margin="0 10 0 10"/>
+            <TextBlock Text="Расписание приема" FontWeight="Bold" Margin="0 10 0 5"/>
+            <StackPanel Orientation="Horizontal" Margin="0 5 0 5">
+                <CheckBox Name="BoxMonday" Content="Пн" Margin="0 0 10 0"/>
+                <CheckBox Name="BoxTuesday" Content="Вт" Margin="0 0 10 0"/>
+                <CheckBox Name="BoxWednesday" Content="Ср" Margin="0 0 10 0"/>
+                <CheckBox Name="BoxThursday" Content="Чт" Margin="0 0 10 0"/>
+                <CheckBox Name="BoxFriday" Content="Пт" Margin="0 0 10 0"/>
+                <CheckBox Name="BoxSaturday" Content="Сб" Margin="0 0 10 0"/>
+                <CheckBox Name="BoxSunday" Content="Вс" Margin="0 0 10 0"/>
+            </StackPanel>
+            <TextBlock Text="Время приема" Margin="0 5 0 5"/>
+            <TextBox Name="BoxIntakeTime" Height="25" Margin="0 0 0 10" Text="08:00"/>
+        </StackPanel>
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+            <Button Name="SaveButton" Content="Сохранить" Click="SaveButton_Click" Width="100" Height="30" Margin="0 0 10 0" 
+                    Background="White" Foreground="Black" BorderThickness="0"/>
+            <Button Name="CancelButton" Content="Отмена" Click="CancelButton_Click" Width="100" Height="30"
+                    Background="White" Foreground="Black" BorderThickness="0"/>
+        </StackPanel>
+    </Grid>
+</Window>

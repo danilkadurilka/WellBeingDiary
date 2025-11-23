@@ -23,6 +23,8 @@ namespace WellBeingDiary.UserControllers
     public partial class ProfilePage : UserControl
     {
         private User currentUser;
+        private bool isVisiblePassword = false;
+        private string realPassword = string.Empty;
         public ProfilePage(User user)
         {
             InitializeComponent();
@@ -36,10 +38,21 @@ namespace WellBeingDiary.UserControllers
             BoxHeight.Text = currentUser.Height.ToString();
             BoxWeight.Text = currentUser.Weight.ToString();
             BoxLogin.Text = currentUser.Login;
+            realPassword = currentUser.Password;
+            BoxPassword.Password = "********";
+            BoxPasswordVisible.Text = realPassword;
+            isVisiblePassword = false;
+            ViewPasswordButton.Content = "Показать";
+            BoxPasswordVisible.Visibility = Visibility.Collapsed;
+            BoxPassword.Visibility = Visibility.Visible;
+
 
             if (currentUser.DateOfBirth != default)
             {
-                DPBirthDate.SelectedDate = currentUser.DateOfBirth.ToDateTime(TimeOnly.MinValue);
+                DPBirthDate.SelectedDate = new DateTime(
+                    currentUser.DateOfBirth.Year,
+                    currentUser.DateOfBirth.Month,
+                    currentUser.DateOfBirth.Day);
             }
         }
 
@@ -65,6 +78,11 @@ namespace WellBeingDiary.UserControllers
                 currentUser.Weight = Convert.ToInt32(BoxWeight.Text);
                 currentUser.Login = BoxLogin.Text;
 
+                if (isVisiblePassword)
+                    currentUser.Password = BoxPasswordVisible.Text;
+                else if (BoxPassword.Password != "********")
+                    currentUser.Password = BoxPassword.Password;
+
                 if (DPBirthDate.SelectedDate.HasValue)
                 {
                     currentUser.DateOfBirth = DateOnly.FromDateTime(DPBirthDate.SelectedDate.Value);
@@ -81,6 +99,27 @@ namespace WellBeingDiary.UserControllers
             {
                 MessageBox.Show("Возникла ошибка при сохранении: " + ex.Message);
             }
+        }
+
+        private void ViewPasswordButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (!isVisiblePassword)
+            {
+                BoxPasswordVisible.Text = realPassword;
+                BoxPassword.Visibility = Visibility.Collapsed;
+                BoxPasswordVisible.Visibility = Visibility.Visible;
+                ViewPasswordButton.Content = "Скрыть";
+            }
+            else
+            {
+                if (BoxPasswordVisible.Text != realPassword)
+                    realPassword = BoxPasswordVisible.Text;
+                BoxPassword.Password = "********";
+                BoxPasswordVisible.Visibility = Visibility.Collapsed;
+                BoxPassword.Visibility = Visibility.Visible;
+                ViewPasswordButton.Content = "Показать";
+            }
+            isVisiblePassword = !isVisiblePassword;
         }
     }
 }
