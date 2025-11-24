@@ -46,9 +46,9 @@ namespace WellBeingDiary.Windows
 
         private void AddDataButton_Click(object sender, RoutedEventArgs e)
         {
-            //Window addDataWindow = new AddDataWindow(currentUser);
-            //if (addDataWindow.ShowDialog() == true)
-            //    ShowMainPage();
+            Window addDataWindow = new AddDataWindow(currentUser);
+            if (addDataWindow.ShowDialog() == true)
+                ShowMainPage();
         }
 
         private void MedControlButton_Click(object sender, RoutedEventArgs e)

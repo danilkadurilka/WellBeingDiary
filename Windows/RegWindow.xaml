@@ -18,44 +18,40 @@
             <StackPanel>
                 <TextBlock Text="Создайте аккаунт, заполняя поля" Margin="0 0 0 10"/>
 
-                <Border BorderBrush="Gray" BorderThickness="1" Margin="0 0 0 10" 
-                        Height="100" Width="100" HorizontalAlignment="Left">
-                    <Image x:Name="ImgUserPhoto" Stretch="Uniform"/>
+                <Border BorderBrush="Gray" BorderThickness="1" Margin="0 0 0 10" Height="100" Width="100" HorizontalAlignment="Left">
+                    <Image Name="ImgUserPhoto" Stretch="Uniform"/>
                 </Border>
-                <Button x:Name="AddPhotoButton" Content="Добавить фото" 
-                        Click="AddPhotoButton_Click" Width="100" HorizontalAlignment="Left" Margin="0 0 0 20"/>
+                <Button Name="AddPhotoButton" Content="Добавить фото" Click="AddPhotoButton_Click" Width="100" HorizontalAlignment="Left" Margin="0 0 0 20"/>
 
                 <TextBlock Text="Имя" Margin="0 5 0 5"/>
                 <TextBox x:Name="BoxName" Height="25" Margin="0 0 0 10" Text="{Binding Name}"/>
 
                 <TextBlock Text="Пол" Margin="0 5 0 5"/>
-                <ComboBox x:Name="ComboBoxGender" Height="25" Margin="0 0 0 10" SelectedValue="{Binding Gender}">
+                <ComboBox Name="ComboBoxGender" Height="25" Margin="0 0 0 10" SelectedValue="{Binding Gender}">
                     <ComboBoxItem Content="Мужской"/>
                     <ComboBoxItem Content="Женский"/>
                 </ComboBox>
 
                 <TextBlock Text="Рост (см)" Margin="0 5 0 5"/>
-                <TextBox x:Name="BoxHeight" Height="25" Margin="0 0 0 10" Text="{Binding Height}"/>
+                <TextBox Name="BoxHeight" Height="25" Margin="0 0 0 10" Text="{Binding Height}"/>
 
                 <TextBlock Text="Вес (кг)" Margin="0,5,0,5"/>
-                <TextBox x:Name="BoxWeight" Height="25" Margin="0 0 0 10" Text="{Binding Weight}"/>
+                <TextBox Name="BoxWeight" Height="25" Margin="0 0 0 10" Text="{Binding Weight}"/>
 
                 <TextBlock Text="Дата рождения" Margin="0 5 0 5"/>
-                <DatePicker x:Name="DPBirthDate" Height="25" Margin="0 0 0 10"/>
+                <DatePicker Name="DPBirthDate" Height="25" Margin="0 0 0 10"/>
 
                 <TextBlock Text="Логин" Margin="0 5 0 5"/>
-                <TextBox x:Name="BoxLogin" Height="25" Margin="0 0 0 10" Text="{Binding Login}"/>
+                <TextBox Name="BoxLogin" Height="25" Margin="0 0 0 10" Text="{Binding Login}"/>
 
                 <TextBlock Text="Пароль" Margin="0 5 0 5"/>
-                <PasswordBox x:Name="BoxPassword" Height="25" Margin="0 0 0 20"/>
+                <PasswordBox Name="BoxPassword" Height="25" Margin="0 0 0 20"/>
             </StackPanel>
         </ScrollViewer>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button x:Name="RegButton" Content="Регистрация" 
-                    Click="RegButton_Click" Width="100" Height="30" Margin="0,0,10,0"/>
-            <Button x:Name="CancelButton" Content="Отмена" 
-                    Click="CancelButton_Click" Width="100" Height="30"/>
+            <Button Name="RegButton" Content="Регистрация" Click="RegButton_Click" Width="100" Height="30" Margin="0,0,10,0"/>
+            <Button Name="CancelButton" Content="Отмена" Click="CancelButton_Click" Width="100" Height="30"/>
         </StackPanel>
     </Grid>
 </Window>

@@ -13,7 +13,6 @@ namespace WellBeingDiary.Models
         public DailyData DailyData { get; set; }
         public int SymptomId { get; set; }
         public Symptom Symptom { get; set; }
-        public string? Notes { get; set; }
 
     }
 }

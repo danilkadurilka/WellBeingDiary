@@ -25,6 +25,7 @@
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
                     <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -34,49 +35,61 @@
                 <Border Grid.Row="0" Grid.Column="0" BorderBrush="Gray" BorderThickness="1" Margin="5" Padding="10">
                     <StackPanel>
                         <TextBlock Text="Артериальное давление" FontWeight="Bold"/>
-                        <TextBlock x:Name="BoxBloodPressure" FontSize="16"/>
+                        <TextBlock Name="BoxBloodPressure" FontSize="16"/>
                     </StackPanel>
                 </Border>
 
                 <Border Grid.Row="0" Grid.Column="1" BorderBrush="Gray" BorderThickness="1" Margin="5" Padding="10">
                     <StackPanel>
                         <TextBlock Text="Вес" FontWeight="Bold"/>
-                        <TextBlock x:Name="BoxWeight" FontSize="16"/>
+                        <TextBlock Name="BoxWeight" FontSize="16"/>
                     </StackPanel>
                 </Border>
 
                 <Border Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1" Margin="5" Padding="10">
                     <StackPanel>
                         <TextBlock Text="Самочувствие и настроение" FontWeight="Bold"/>
-                        <TextBlock x:Name="BoxWellBeing" FontSize="16"/>
+                        <TextBlock Name="BoxWellBeing" FontSize="16"/>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Row="2" Grid.Column="0" BorderBrush="Gray" BorderThickness="1" Margin="5" Padding="10">
+                    <StackPanel>
+                        <TextBlock Text="Заметки" FontWeight="Bold"/>
+                        <TextBlock Name="BoxNotes" FontSize="16"/>
+                    </StackPanel>
+                </Border>
+                <Border Grid.Row="2" Grid.Column="1" BorderBrush="Gray" BorderThickness="1" Margin="5" Padding="10">
+                    <StackPanel>
+                        <TextBlock Text="Симптомы" FontWeight="Bold"/>
+                        <TextBlock Name="BoxSymptoms" FontSize="16"/>
                     </StackPanel>
                 </Border>
 
-                <Border Grid.Row="2" Grid.Column="0" BorderBrush="Gray" BorderThickness="1" Margin="5" Padding="10">
+                <Border Grid.Row="3" Grid.Column="0" BorderBrush="Gray" BorderThickness="1" Margin="5" Padding="10">
                     <StackPanel>
                         <TextBlock Text="Сон" FontWeight="Bold"/>
-                        <TextBlock x:Name="BoxSleep" FontSize="16"/>
+                        <TextBlock Name="BoxSleep" FontSize="16"/>
                     </StackPanel>
                 </Border>
                 
-                <Border Grid.Row="2" Grid.Column="1" BorderBrush="Gray" BorderThickness="1" Margin="5" Padding="10">
+                <Border Grid.Row="3" Grid.Column="1" BorderBrush="Gray" BorderThickness="1" Margin="5" Padding="10">
                     <StackPanel>
                         <TextBlock Text="Физическая активность" FontWeight="Bold"/>
-                        <TextBlock x:Name="BoxSteps" FontSize="16"/>
+                        <TextBlock Name="BoxSteps" FontSize="16"/>
                     </StackPanel>
                 </Border>
 
-                <Border Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1" Margin="5" Padding="10">
+                <Border Grid.Row="4" Grid.Column="0" Grid.ColumnSpan="2" BorderBrush="Gray" BorderThickness="1" Margin="5" Padding="10">
                     <StackPanel>
                         <TextBlock Text="Текущие лекарства" FontWeight="Bold" Margin="0 0 0 5"/>
-                        <ItemsControl x:Name="ItemsMedicines">
+                        <ItemsControl Name="ItemsMedicines">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding MedicineName}" Margin="0 2"/>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
                         </ItemsControl>
-                        <TextBlock x:Name="TextNoMedicines" Text="Нет активных лекарств" FontStyle="Italic" Foreground="Gray" Margin="0 5"/>
+                        <TextBlock Name="TextNoMedicines" Text="Нет активных лекарств" FontStyle="Italic" Foreground="Gray" Margin="0 5"/>
                     </StackPanel>
                 </Border>
             </Grid>

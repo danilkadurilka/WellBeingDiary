@@ -1,12 +1,93 @@
 ﻿<Window x:Class="WellBeingDiary.Windows.AddDataWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:WellBeingDiary.Windows"
-        mc:Ignorable="d"
-        Title="AddDataWindow" Height="450" Width="800">
-    <Grid>
-        
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:local="clr-namespace:WellBeingDiary.Windows"
+	mc:Ignorable="d"
+        Title="Внесение данных за день" Height="600" Width="500"
+        WindowStartupLocation="CenterScreen">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="Внесение данных за день" FontSize="18" FontWeight="Bold" Margin="0 0 0 20"/>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <TextBlock Text="Дата" Margin="0 5 0 5"/>
+                <DatePicker Name="DPDate" Height="25" Margin="0 0 0 10" SelectedDateChanged="DPDate_SelectedDateChanged"/>
+
+                <GroupBox Header="Артериальное давление и пульс" Margin="0 10 0 10">
+                    <StackPanel Margin="10">
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox Name="BoxSystolic" Width="60" Height="25" Margin="0 0 5 0"/>
+                            <TextBlock Text="/" VerticalAlignment="Center"/>
+                            <TextBox Name="BoxDiastolic" Width="60" Height="25" Margin="5 0 10 0"/>
+                            <TextBlock Text="Пульс:" VerticalAlignment="Center"/>
+                            <TextBox Name="BoxPulse" Width="60" Height="25" Margin="5 0 0 0"/>
+                        </StackPanel>
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Header="Вес" Margin="0 10 0 10">
+                    <StackPanel Margin="10">
+                        <TextBox Name="BoxWeight" Height="25" Width="60" HorizontalAlignment="Left"/>
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Header="Самочувствие и настроение" Margin="0 10 0 10">
+                    <StackPanel Margin="10">
+                        <ComboBox Name="ComboBoxWellBeing" Height="25" Margin="0 0 0 5">
+                            <ComboBoxItem Content="1 - Плохое"/>
+                            <ComboBoxItem Content="2 - Удовлетворительное"/>
+                            <ComboBoxItem Content="3 - Нормальное"/>
+                            <ComboBoxItem Content="4 - Хорошее"/>
+                            <ComboBoxItem Content="5 - Отличное"/>
+                        </ComboBox>
+                        <TextBlock Text="Заметки"/>
+                        <TextBox Name="BoxNotes" Height="60" VerticalScrollBarVisibility="Auto"/>
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Header="Сон" Margin="0 10 0 10">
+                    <StackPanel Margin="10">
+                        <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
+                            <TextBlock Text="Время отхода ко сну:" VerticalAlignment="Center" Margin="0 0 5 0"/>
+                            <TextBox Name="BoxSleepStart" Width="60" Height="25" Margin="0 0 5 0"/>
+                            <TextBlock Text="чч:мм" VerticalAlignment="Center"></TextBlock>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="0 5 0 10">
+                            <TextBlock Text="Время пробуждения:" VerticalAlignment="Center" Margin="0 0 5 0"/>
+                            <TextBox Name="BoxSleepEnd" Width="60" Height="25" Margin="0 0 5 0"/>
+                            <TextBlock Text="чч:мм" VerticalAlignment="Center"/>
+                        </StackPanel>
+                        <ComboBox Name="ComboBoxSleepQuality" Height="25" Margin="0 5 0 0">
+                            <ComboBoxItem Content="1 - Очень плохо"/>
+                            <ComboBoxItem Content="2 - Плохо"/>
+                            <ComboBoxItem Content="3 - Нормально"/>
+                            <ComboBoxItem Content="4 - Хорошо"/>
+                            <ComboBoxItem Content="5 - Отлично"/>
+                        </ComboBox>
+                        <TextBlock Text="Количество ночных пробуждений" Margin="0 10 0 5"/>
+                        <TextBox Name="BoxNightAwakening" Height="25" Width="60" HorizontalAlignment="Left" Text="0"/>
+                    </StackPanel>
+                </GroupBox>
+
+                <GroupBox Header="Физическая активность" Margin="0 10 0 10">
+                    <StackPanel Margin="10">
+                        <TextBox Name="BoxSteps" Height="25" Width="100" HorizontalAlignment="Left"/>
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+        </ScrollViewer>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 20 0 0">
+            <Button Name="SaveButton" Content="Сохранить" Click="SaveButton_Click" Width="100" Height="30" Margin="0 0 10 0"/>
+            <Button Name="CancelButton" Content="Отмена" Click="CancelButton_Click" Width="100" Height="30"/>
+        </StackPanel>
     </Grid>
 </Window>

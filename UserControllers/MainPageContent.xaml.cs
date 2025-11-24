@@ -94,6 +94,8 @@ namespace WellBeingDiary.UserControllers
             }
             else { BoxWellBeing.Text = "Не указано"; }
 
+            BoxNotes.Text = todayData.Notes;
+
 
             if (todayData.SleepStart.HasValue && todayData.SleepEnd.HasValue)
             {
@@ -105,7 +107,7 @@ namespace WellBeingDiary.UserControllers
                 }
                 BoxSleep.Text = $"{sleepTime.Hours}ч {sleepTime.Minutes}м{quality}";
             }
-            else { BoxWellBeing.Text = "Не указан"; }
+            else { BoxSleep.Text = "Не указан"; }
 
             if (todayData.StepCount.HasValue)
             { 
