@@ -20,42 +20,28 @@ namespace WellBeingDiary.Windows
     /// </summary>
     public partial class MainWindow : Window
     {
+        private Models.AppContext _context;
         public MainWindow()
         {
             InitializeComponent();
-            InitializeBasicData();
+            InitializeDB();
         }
-        public void InitializeBasicData()
+        public void InitializeDB()
         {
-            if (Models.AppContext.Users.Count == 0)
+            try
             {
-                Models.AppContext.Users.Add(new User
+                _context = new Models.AppContext();
+                _context.Database.EnsureCreated();
+                if (!_context.Users.Any(u => u.Login == "test")) 
                 {
-                    Id = 1,
-                    Login = "test",
-                    Password = "test",
-                    Name = "Test User",
-                    Gender = "Мужской",
-                    Height = 180,
-                    Weight = 75,
-                    DateOfBirth = new DateOnly(1990, 1, 1)
-                });
+                    _context.Users.Add(new User { Id = 1, Login = "test", Password = "test", Name = "Тестовый", Gender = "Мужской", Height = 180, Weight = 75, DateOfBirth = new DateOnly(1999, 4, 1) });
+                    _context.SaveChanges();
+                }
             }
-
-            Models.AppContext.Symptoms = new List<Symptom>
+            catch (Exception ex)
             {
-                new Symptom { Id = 1, Name = "Головная боль", Description = "Боль в области головы" },
-                new Symptom { Id = 2, Name = "Тошнота", Description = "Чувство тошноты" },
-                new Symptom { Id = 3, Name = "Головокружение", Description = "Потеря равновесия" },
-                new Symptom { Id = 4, Name = "Слабость", Description = "Общая слабость организма" },
-                new Symptom { Id = 5, Name = "Температура", Description = "Повышенная температура тела" }
-            };
-            Models.AppContext.DailyData = new List<DailyData>();
-            Models.AppContext.Medicines = new List<Medicine>();
-            Models.AppContext.MedicinesSchedule = new List<MedicineSchedule>();
-            Models.AppContext.MedicineIntakes = new List<MedicineIntake>();
-            Models.AppContext.Reports = new List<Report>();
-            Models.AppContext.DailySymptoms = new List<DailySymptom>();
+                MessageBox.Show($"Ошибка инициализации БД: {ex.Message}");
+            }
         }
 
         private void ButtonLogin_Click(object sender, RoutedEventArgs e)
@@ -63,23 +49,38 @@ namespace WellBeingDiary.Windows
             string login = BoxLogin.Text;
             string password = BoxPassword.Password;
 
-            var user = Models.AppContext.Users.FirstOrDefault(u => u.Login == login && u.Password == password);
+            try
+            {
+                if (string.IsNullOrWhiteSpace(login) || string.IsNullOrWhiteSpace(password))
+                {
+                    MessageBox.Show("Введите логин и пароль!", "Ошибка", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return;
+                }
 
-            if (user != null)
-            {
-                MainPageWindow mainWindow = new MainPageWindow(user);
-                mainWindow.Show();
-                this.Close();
+                var user = _context.Users.FirstOrDefault(u => u.Login == login && u.Password == password);
+
+                if (user != null)
+                {
+                    MainPageWindow mainWindow = new MainPageWindow(user, _context);
+                    mainWindow.Show();
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Неверный логин или пароль");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Неверный логин или пароль");
+                MessageBox.Show($"Ошибка при входе: {ex.Message}");
             }
+
+            
         }
 
         private void ButtonRegister_Click(object sender, RoutedEventArgs e)
         {
-            RegWindow regWindow = new RegWindow();
+            RegWindow regWindow = new RegWindow(_context);
             regWindow.Show();
             this.Close();
         }

@@ -25,10 +25,12 @@ namespace WellBeingDiary.UserControllers
         private User currentUser;
         private bool isVisiblePassword = false;
         private string realPassword = string.Empty;
-        public ProfilePage(User user)
+        private Models.AppContext _context;
+        public ProfilePage(User user, Models.AppContext appContext)
         {
-            InitializeComponent();
             currentUser = user;
+            _context = appContext;
+            InitializeComponent();
             LoadUserData();
         }
         public void LoadUserData() 
@@ -64,6 +66,7 @@ namespace WellBeingDiary.UserControllers
             if (openFileDialog.ShowDialog() == true)
             {
                 currentUser.PhotoPath = openFileDialog.FileName;
+                _context.SaveChanges();
                 MessageBox.Show("Фото обновлено!");
             }
         }
@@ -71,11 +74,56 @@ namespace WellBeingDiary.UserControllers
         private void SaveProfileButton_Click(object sender, RoutedEventArgs e)
         {
             try 
-            { 
+            {
+                if (string.IsNullOrWhiteSpace(BoxName.Text))
+                {
+                    MessageBox.Show("Имя не может быть пустым");
+                    return;
+                }
+                if (string.IsNullOrWhiteSpace(BoxLogin.Text))
+                {
+                    MessageBox.Show("Логин пользователя не может быть пустым");
+                    return;
+                }
+                if (BoxLogin.Text != currentUser.Login && _context.Users.Any(u => u.Login == BoxLogin.Text))
+                {
+                    MessageBox.Show("Пользователь с таким логином уже существует");
+                    return;
+                }
+
+                try
+                {
+                    int height = int.Parse(BoxHeight.Text);
+                    if (height < 60 || height > 250)
+                    {
+                        MessageBox.Show("Введите корректное значение роста (от 60 до 250 см)");
+                        return;
+                    }
+                    currentUser.Height = height;
+
+                } 
+                catch(FormatException)
+                {
+                    MessageBox.Show("Рост должен быть целым числом");
+                    return;
+                }
+                try
+                {
+                    double weight = double.Parse(BoxWeight.Text);
+                    if (weight < 20 || weight > 300)
+                    {
+                        MessageBox.Show("Введите корректное значение веса (от 20 до 300 кг)");
+                        return;
+                    }
+                    currentUser.Weight = weight;
+                }
+                catch (FormatException)
+                {
+                    MessageBox.Show("Вес должен быть числом");
+                    return;
+                }
                 currentUser.Name = BoxName.Text;
                 currentUser.Gender = ComboBoxGender.Text;
-                currentUser.Height = Convert.ToInt32(BoxHeight.Text); 
-                currentUser.Weight = Convert.ToInt32(BoxWeight.Text);
                 currentUser.Login = BoxLogin.Text;
 
                 if (isVisiblePassword)
@@ -88,11 +136,7 @@ namespace WellBeingDiary.UserControllers
                     currentUser.DateOfBirth = DateOnly.FromDateTime(DPBirthDate.SelectedDate.Value);
                 }
 
-                if (!string.IsNullOrEmpty(BoxPassword.Password))
-                {
-                    currentUser.Password = BoxPassword.Password;
-                }
-
+                _context.SaveChanges();
                 MessageBox.Show("Изменения сохранены");
             }
             catch (Exception ex) 

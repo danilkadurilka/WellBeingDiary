@@ -26,16 +26,21 @@
                         <StackPanel Orientation="Horizontal">
                             <TextBox Name="BoxSystolic" Width="60" Height="25" Margin="0 0 5 0"/>
                             <TextBlock Text="/" VerticalAlignment="Center"/>
-                            <TextBox Name="BoxDiastolic" Width="60" Height="25" Margin="5 0 10 0"/>
+                            <TextBox Name="BoxDiastolic" Width="60" Height="25" Margin="5 0 5 0"/>
+                            <TextBlock Text="мм.рт.ст." VerticalAlignment="Center" Margin="0 0 15 0"/>
                             <TextBlock Text="Пульс:" VerticalAlignment="Center"/>
                             <TextBox Name="BoxPulse" Width="60" Height="25" Margin="5 0 0 0"/>
+                            <TextBlock Text="уд/мин" VerticalAlignment="Center" Margin="5 0 0 0"/>
                         </StackPanel>
                     </StackPanel>
                 </GroupBox>
 
                 <GroupBox Header="Вес" Margin="0 10 0 10">
                     <StackPanel Margin="10">
-                        <TextBox Name="BoxWeight" Height="25" Width="60" HorizontalAlignment="Left"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox Name="BoxWeight" Height="25" Width="60" HorizontalAlignment="Left" Margin="0 0 5 0"/>
+                            <TextBlock Text="кг" VerticalAlignment="Center"/>
+                        </StackPanel>
                     </StackPanel>
                 </GroupBox>
 
@@ -48,10 +53,19 @@
                             <ComboBoxItem Content="4 - Хорошее"/>
                             <ComboBoxItem Content="5 - Отличное"/>
                         </ComboBox>
+
                         <TextBlock Text="Заметки"/>
                         <TextBox Name="BoxNotes" Height="60" VerticalScrollBarVisibility="Auto"/>
                     </StackPanel>
                 </GroupBox>
+                <GroupBox Header="Симптомы" Margin="0 10 0 10">
+                    <StackPanel Margin="10">
+                        <ScrollViewer Height="100" VerticalScrollBarVisibility="Auto">
+                            <StackPanel Name="SymptomsPanel"/>
+                        </ScrollViewer>
+                    </StackPanel>
+                </GroupBox>
+                
 
                 <GroupBox Header="Сон" Margin="0 10 0 10">
                     <StackPanel Margin="10">
@@ -65,6 +79,7 @@
                             <TextBox Name="BoxSleepEnd" Width="60" Height="25" Margin="0 0 5 0"/>
                             <TextBlock Text="чч:мм" VerticalAlignment="Center"/>
                         </StackPanel>
+                        <TextBlock Text="Качество сна" VerticalAlignment="Center" />
                         <ComboBox Name="ComboBoxSleepQuality" Height="25" Margin="0 5 0 0">
                             <ComboBoxItem Content="1 - Очень плохо"/>
                             <ComboBoxItem Content="2 - Плохо"/>
@@ -79,15 +94,20 @@
 
                 <GroupBox Header="Физическая активность" Margin="0 10 0 10">
                     <StackPanel Margin="10">
-                        <TextBox Name="BoxSteps" Height="25" Width="100" HorizontalAlignment="Left"/>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBox Name="BoxSteps" Height="25" Width="100" HorizontalAlignment="Left"/>
+                            <TextBlock Text="шагов" VerticalAlignment="Center" Margin="5 0 0 0"/>
+                        </StackPanel>
                     </StackPanel>
                 </GroupBox>
             </StackPanel>
         </ScrollViewer>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 20 0 0">
-            <Button Name="SaveButton" Content="Сохранить" Click="SaveButton_Click" Width="100" Height="30" Margin="0 0 10 0"/>
-            <Button Name="CancelButton" Content="Отмена" Click="CancelButton_Click" Width="100" Height="30"/>
+            <Button Name="SaveButton" Content="Сохранить" Click="SaveButton_Click" Width="100" Height="30" Margin="0 0 10 0" 
+                Background="White" Foreground="Black" BorderThickness="0"/>
+            <Button Name="CancelButton" Content="Отмена" Click="CancelButton_Click" Width="100" Height="30"
+                Background="White" Foreground="Black" BorderThickness="0"/>
         </StackPanel>
     </Grid>
 </Window>

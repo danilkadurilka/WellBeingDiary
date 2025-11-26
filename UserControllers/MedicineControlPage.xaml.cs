@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,22 +24,24 @@ namespace WellBeingDiary.UserControllers
     public partial class MedicineControlPage : UserControl
     {
         private User currentUser;
-        public MedicineControlPage(User user)
+        private Models.AppContext _context;
+        public MedicineControlPage(User user, Models.AppContext appContext)
         {
-            InitializeComponent();
             currentUser = user;
+            _context = appContext;
+            InitializeComponent();
             LoadMedicines();
         }
 
         public void LoadMedicines()
         {
-            var medicines = Models.AppContext.Medicines?.Where(m => m.UserId == currentUser.Id).ToList();
+            List<Medicine>? medicines = _context.Medicines?.Where(m => m.UserId == currentUser.Id).Include(m => m.Schedules).ToList();
             MedicinesListBox.ItemsSource = medicines;
         }
 
         private void AddMedicineButton_Click(object sender, RoutedEventArgs e)
         {
-            Window medicineEditWindow = new MedicineEditWindow(currentUser);
+            Window medicineEditWindow = new MedicineEditWindow(currentUser, _context);
             if (medicineEditWindow.ShowDialog() == true)
                 LoadMedicines();
         }
@@ -46,9 +49,9 @@ namespace WellBeingDiary.UserControllers
         private void EditButton_Click(object sender, RoutedEventArgs e)
         {
             Medicine selectedMedicine = (Medicine)MedicinesListBox.SelectedItem;
-            if (MedicinesListBox.SelectedItem == selectedMedicine)
+            if (selectedMedicine != null)
             {
-                Window medicineEditWindow = new MedicineEditWindow(currentUser, selectedMedicine);
+                Window medicineEditWindow = new MedicineEditWindow(currentUser, _context, selectedMedicine);
                 if (medicineEditWindow.ShowDialog() == true)
                     LoadMedicines();
             }
@@ -61,13 +64,24 @@ namespace WellBeingDiary.UserControllers
         private void DeleteButton_Click(object sender, RoutedEventArgs e)
         {
             Medicine selectedMedicine = (Medicine)MedicinesListBox.SelectedItem;
-            if (MedicinesListBox.SelectedItem == selectedMedicine)
+            if (selectedMedicine != null)
             {
                 var result = MessageBox.Show("Удалить это лекарство?", "Подтвердите действие", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (result.ToString() == "Yes")
                 {
-                    Models.AppContext.Medicines?.Remove(selectedMedicine);
-                    LoadMedicines();
+                    try
+                    {
+                        List<MedicineSchedule>? schedules = _context.MedicinesSchedule.Where(s => s.MedicineId == selectedMedicine.Id).ToList();
+                        _context.MedicinesSchedule.RemoveRange(schedules);
+                        _context.Medicines.Remove(selectedMedicine);
+                        _context.SaveChanges();
+                        LoadMedicines();
+                        MessageBox.Show("Лекарство удалено");
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show($"Ошибка при удалении: {ex.Message}");
+                    }
                 }
             }
             else

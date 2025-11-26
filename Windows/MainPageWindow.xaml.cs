@@ -22,21 +22,23 @@ namespace WellBeingDiary.Windows
     public partial class MainPageWindow : Window
     {
         public User currentUser { get; set; }
-        public MainPageWindow(User user)
+        private Models.AppContext _context;
+        public MainPageWindow(User user, Models.AppContext appContext)
         {
-            InitializeComponent();
             currentUser = user;
+            _context = appContext;
+            InitializeComponent();
             this.DataContext = this;
             ShowMainPage();
         }
         public void ShowMainPage()
         {
-           MainContent.Content = new MainPageContent(currentUser);
+           MainContent.Content = new MainPageContent(currentUser, _context);
         }
 
         private void ViewProfileButton_Click(object sender, RoutedEventArgs e)
         {
-           MainContent.Content = new ProfilePage(currentUser);
+           MainContent.Content = new ProfilePage(currentUser, _context);
         }
 
         private void MainPageButton_Click(object sender, RoutedEventArgs e)
@@ -46,20 +48,20 @@ namespace WellBeingDiary.Windows
 
         private void AddDataButton_Click(object sender, RoutedEventArgs e)
         {
-            Window addDataWindow = new AddDataWindow(currentUser);
+            Window addDataWindow = new AddDataWindow(currentUser, _context);
             if (addDataWindow.ShowDialog() == true)
                 ShowMainPage();
         }
 
         private void MedControlButton_Click(object sender, RoutedEventArgs e)
         {
-            MainContent.Content = new MedicineControlPage(currentUser);
+            MainContent.Content = new MedicineControlPage(currentUser, _context);
         }
 
         private void ReportsButton_Click(object sender, RoutedEventArgs e)
         {
-            //Window reportWindow = new ReportMakeWindow(currentUser);
-            //reportWindow.ShowDialog();
+            Window reportWindow = new ReportMakeWindow(currentUser, _context);
+            reportWindow.ShowDialog();
         }
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)

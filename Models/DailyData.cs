@@ -28,7 +28,7 @@ namespace WellBeingDiary.Models
         public int? SleepQuality { get; set; }
         public int? NightAwake { get; set; }
 
-        public int? Weight { get; set; }
+        public double? Weight { get; set; }
 
         public DateTime CreateAt { get; set; } = DateTime.Now;
         public DateTime UpdateAt { get; set; } = DateTime.Now;

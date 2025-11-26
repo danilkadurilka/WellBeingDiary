@@ -23,7 +23,8 @@ namespace WellBeingDiary.Windows
         private User currentUser;
         private Medicine editMedicine;
         private bool isEditing = false;
-        public MedicineEditWindow(User user, Medicine medicine = null)
+        private Models.AppContext _context;
+        public MedicineEditWindow(User user, Models.AppContext appContext, Medicine medicine = null)
         {
             InitializeComponent();
             currentUser = user;
@@ -39,7 +40,48 @@ namespace WellBeingDiary.Windows
                 DPStartDate.SelectedDate = DateTime.Today;
             }
         }
-
+        public bool CheckMedicineData()
+        {
+            if (string.IsNullOrWhiteSpace(BoxMedicineName.Text)) 
+            {
+                MessageBox.Show("Название лекарства не может быть пустым");
+                return false;
+            }
+            if (DPStartDate.SelectedDate.HasValue && DPStartDate.SelectedDate.Value > DateTime.Today.AddDays(1))
+            {
+                MessageBox.Show("Дата начала приема не может быть в будущем");
+                return false;
+            }
+            if (DPEndDate.SelectedDate.HasValue && DPStartDate.SelectedDate.HasValue)
+            {
+                if(DPEndDate.SelectedDate.Value < DPEndDate.SelectedDate.Value)
+                {
+                    MessageBox.Show("Дата окончания приема не может быть раньше даты начала");
+                    return false;
+                }
+            }
+            if (string.IsNullOrWhiteSpace(BoxIntakeTime.Text))
+            {
+                MessageBox.Show("Введите время приема");
+                return false;
+            }
+            try
+            {
+                TimeSpan intakeTime = TimeSpan.Parse(BoxIntakeTime.Text);
+            }
+            catch (Exception ex)
+            { 
+                MessageBox.Show($"Возникла ошибка: {ex.Message}");
+                return false;
+            }
+            if (BoxMonday.IsChecked == false || BoxTuesday.IsChecked == false || BoxWednesday.IsChecked == false || BoxThursday.IsChecked == false ||
+                BoxFriday.IsChecked == false || BoxSaturday.IsChecked == false || BoxSunday.IsChecked == false)
+            {
+                MessageBox.Show("Выберите хотя бы один день для приема");
+                return false;
+            }
+            return true;
+        }
         public void LoadMedicineData()
         {
             BoxMedicineName.Text = editMedicine.MedicineName;
@@ -49,9 +91,9 @@ namespace WellBeingDiary.Windows
             if (editMedicine.EndDate.HasValue)
                 DPEndDate.SelectedDate = editMedicine.EndDate.Value;
             BoxIsActive.IsChecked = editMedicine.IsActive;
-            if (editMedicine.Schedules.Any())
+            MedicineSchedule? schedule = _context.MedicinesSchedule.FirstOrDefault(s => s.MedicineId == editMedicine.Id);
+            if (schedule != null)
             {
-                MedicineSchedule schedule = editMedicine.Schedules[0];
                 BoxMonday.IsChecked = schedule.Monday;
                 BoxTuesday.IsChecked = schedule.Tuesday;
                 BoxWednesday.IsChecked = schedule.Wednesday;
@@ -65,11 +107,8 @@ namespace WellBeingDiary.Windows
 
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(BoxMedicineName.Text))
-            {
-                MessageBox.Show("Введите название лекарства!");
+            if (CheckMedicineData())
                 return;
-            }
 
             try
             {
@@ -83,45 +122,38 @@ namespace WellBeingDiary.Windows
 
                 if (isEditing == false)
                 {
-                    //editMedicine.Id???
-                    Models.AppContext.Medicines?.Add(editMedicine);
+                    if (_context.Medicines.Any())
+                        editMedicine.Id = _context.Medicines.Max(m => m.Id) + 1;
+                    else
+                        editMedicine.Id = 1;
+                    
+                }
+                TimeSpan intakeTime = TimeSpan.Parse(BoxIntakeTime.Text);
+
+                int newId;
+                if (_context.MedicinesSchedule.Any())
+                {
+                    newId = _context.MedicinesSchedule.Max(ms => ms.Id) + 1;
                 }
                 else
                 {
-                    var oldSchedules = Models.AppContext.MedicinesSchedule?.Where(s => s.MedicineId == editMedicine.Id).ToList(); //var? 
-                    if (oldSchedules !=  null)
-                    {
-                        foreach (var schedule in oldSchedules)
-                        {
-                            Models.AppContext.MedicinesSchedule?.Remove(schedule);
-                        }
-                    }
-
+                    newId = 1;
                 }
-                try 
+                MedicineSchedule schedule = new()
                 {
-                    TimeSpan intakeTime = TimeSpan.Parse(BoxIntakeTime.Text);
-                    MedicineSchedule schedule = new()
-                    {
-                        //id?
-                        MedicineId = editMedicine.Id,
-                        IntakeTime = intakeTime,
-                        Monday = BoxMonday.IsChecked ?? false,
-                        Tuesday = BoxTuesday.IsChecked ?? false,
-                        Wednesday = BoxWednesday.IsChecked ?? false,
-                        Thursday = BoxThursday.IsChecked ?? false,
-                        Friday = BoxFriday.IsChecked ?? false,
-                        Saturday = BoxSaturday.IsChecked ?? false,
-                        Sunday = BoxSunday.IsChecked ?? false
-                    };
-                    Models.AppContext.MedicinesSchedule?.Add(schedule);
-                }
-                
-                catch (OverflowException)
-                {
-                    MessageBox.Show("Неверное значение времени");
-                    return;
-                }
+                    Id = newId,
+                    MedicineId = editMedicine.Id,
+                    IntakeTime = intakeTime,
+                    Monday = BoxMonday.IsChecked ?? false,
+                    Tuesday = BoxTuesday.IsChecked ?? false,
+                    Wednesday = BoxWednesday.IsChecked ?? false,
+                    Thursday = BoxThursday.IsChecked ?? false,
+                    Friday = BoxFriday.IsChecked ?? false,
+                    Saturday = BoxSaturday.IsChecked ?? false,
+                    Sunday = BoxSunday.IsChecked ?? false
+                };
+                _context.MedicinesSchedule.Add(schedule);
+                _context.SaveChanges();
                 this.DialogResult = true;
                 this.Close();
         }

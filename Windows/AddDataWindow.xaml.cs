@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore.Sqlite.Query.Internal;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Printing.IndexedProperties;
@@ -23,9 +24,11 @@ namespace WellBeingDiary.Windows
     {
         private User currentUser;
         private DailyData dailyData;
-        public AddDataWindow(User user)
+        private Models.AppContext _context;
+        public AddDataWindow(User user, Models.AppContext appContext)
         {
             currentUser = user;
+            _context = appContext;
             InitializeComponent();
             DPDate.SelectedDate = DateTime.Today;
             LoadThisDateData();
@@ -39,8 +42,7 @@ namespace WellBeingDiary.Windows
                 return;
             }
             DateTime selectedDate = DPDate.SelectedDate ?? DateTime.Today;
-            dailyData = Models.AppContext.DailyData?.
-                FirstOrDefault(d => d.UserId == currentUser.Id && d.Date.Date == selectedDate.Date);
+            dailyData = _context.DailyData?.FirstOrDefault(d => d.UserId == currentUser.Id && d.Date.Date == selectedDate.Date);
             if (dailyData != null)
             {
                 BoxSystolic.Text = dailyData.SystolicPressure?.ToString();
@@ -66,10 +68,118 @@ namespace WellBeingDiary.Windows
                 BoxSleepStart.Text = "22:00";
                 BoxSleepEnd.Text = "06:00";
                 BoxNightAwakening.Text = "0";
+                BoxSteps.Text = "0";
             }
         }
+
+        public bool CheckData()
+        {
+            if(!string.IsNullOrEmpty(BoxSystolic.Text) && !string.IsNullOrEmpty(BoxDiastolic.Text) && !string.IsNullOrEmpty(BoxPulse.Text))
+            {
+                try 
+                {
+                    int systolic = int.Parse(BoxSystolic.Text);
+                    int diastolic = int.Parse(BoxDiastolic.Text);
+                    int pulse = int.Parse(BoxPulse.Text);
+                    if (systolic < 60 || systolic > 250)
+                    {
+                        MessageBox.Show("Систолическое давление должно быть между 60 и 250");
+                        return false;
+                    }
+                    if (diastolic < 40 || diastolic > 150)
+                    {
+                        MessageBox.Show("Диастолическое давление должно быть между 40 и 150");
+                        return false;
+                    }
+                    if (systolic <= diastolic)
+                    {
+                        MessageBox.Show("Систолическое давление должно быть больше диастолического");
+                        return false;
+                    }
+                    if (pulse < 30 || pulse > 200)
+                    {
+                        MessageBox.Show("Пульс должен быть между 30 и 200");
+                        return false;
+                    }
+
+                }
+                catch (FormatException)
+                {
+                    MessageBox.Show("Давление и пульс должны быть целыми числами");
+                    return false;
+                }
+            }
+            if (!string.IsNullOrEmpty(BoxWeight.Text))
+            {
+                try
+                {
+                    double weight = double.Parse(BoxWeight.Text);
+                    if (weight < 20 ||  weight > 300)
+                    {
+                        MessageBox.Show("Вес должен быть между 20 и 300 кг");
+                        return false;
+                    }
+                }
+                catch (FormatException)
+                {
+                    MessageBox.Show("Вес должен быть числом");
+                    return false;
+                }
+            }
+            if (!string.IsNullOrEmpty(BoxSleepStart.Text) && !string.IsNullOrEmpty(BoxSleepEnd.Text))
+            {
+                try
+                {
+                    TimeSpan sleepStartTime = TimeSpan.Parse(BoxSleepStart.Text);
+                    TimeSpan sleepEndTime = TimeSpan.Parse(BoxSleepEnd.Text);
+                }
+                catch (FormatException)
+                {
+                    MessageBox.Show("Время сна должно быть указано в формате чч:мм");
+                    return false;
+                }
+            }
+            if (!string.IsNullOrEmpty(BoxNightAwakening.Text))
+            {
+                try
+                {
+                    int awake = int.Parse(BoxNightAwakening.Text);
+                    if (awake < 0 || awake > 20)
+                    {
+                        MessageBox.Show("Количество ночных пробуждений не может быть отрицательным или превышать значение 20");
+                        return false;
+                    }
+                }
+                catch (FormatException)
+                {
+                    MessageBox.Show("Количество ночных пробуждений должно быть целым числом");
+                    return false;
+                }
+            }
+            if (!string.IsNullOrEmpty(BoxSteps.Text))
+            {
+                try
+                {
+                    int steps = int.Parse(BoxSteps.Text);
+                    if (steps < 0 || steps > 200000)
+                    {
+                        MessageBox.Show("Количество шагов не может быть отрицательным или превышать значение 200000");
+                        return false;
+                    }
+                }
+                catch (FormatException)
+                {
+                    MessageBox.Show("Количество шагов должно быть целым числом");
+                    return false;
+                }
+            }
+            return true;
+        }
+
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
+            if (CheckData() == false)
+                return;
             try
             {
                 dailyData.UserId = currentUser.Id;
@@ -105,8 +215,13 @@ namespace WellBeingDiary.Windows
                 }
                 dailyData.StepCount = Convert.ToInt32(BoxSteps.Text);
                 dailyData.UpdateAt = DateTime.Now;
-                dailyData.CreateAt = DateTime.Now;
-                Models.AppContext.DailyData?.Add(dailyData);
+                if (dailyData.Id == 0)
+                {
+                    dailyData.CreateAt = DateTime.Now;
+                    _context.DailyData.Add(dailyData);
+                }
+
+                _context.SaveChanges();
                 MessageBox.Show("Данные успешно внесены!");
                 this.DialogResult = true;
                 this.Close();

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -24,15 +25,17 @@ namespace WellBeingDiary.UserControllers
         private User currentUser;
         private DailyData todayData;
         private DateTime currentDate = DateTime.Today;
-        public MainPageContent(User user)
+        private Models.AppContext _context;
+        public MainPageContent(User user, Models.AppContext appContext)
         {
-            InitializeComponent();
             currentUser = user;
-            LoadData();
+            _context = appContext;
+            InitializeComponent();
+            LoadData(); 
         }
         public void LoadData()
         {
-            todayData = Models.AppContext.DailyData?.FirstOrDefault(d => d.UserId == currentUser.Id && d.Date.Date == currentDate);
+            todayData = _context.DailyData?.FirstOrDefault(d => d.UserId == currentUser.Id && d.Date.Date == currentDate);
             if (todayData == null)
                 todayData = new DailyData();
             UpdateDataDisplay();
@@ -117,7 +120,7 @@ namespace WellBeingDiary.UserControllers
         }
         public void LoadMedicines()
         {
-            var medicines = Models.AppContext.Medicines?.Where(m => m.UserId == currentUser.Id && m.IsActive).ToList(); //var - это DbSet? List? 
+            List<Medicine>? medicines = _context.Medicines?.Where(m => m.UserId == currentUser.Id && m.IsActive).ToList();
 
             if (medicines != null && medicines.Any())
             {
