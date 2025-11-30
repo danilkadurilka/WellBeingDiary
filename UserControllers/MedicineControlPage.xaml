@@ -12,28 +12,41 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        
         <TextBlock Grid.Row="0" Text="Контроль лекарств" FontSize="18" FontWeight="Bold" Margin="0 0 0 20"/>
         <StackPanel Grid.Row="1">
-            <Button Name="AddMedicineButton" Content="Добавить лекарство" Click="AddMedicineButton_Click" Width="120" Margin="0 0 0 10" HorizontalAlignment="Left"/>
+            <Button Name="AddMedicineButton" Content="Добавить лекарство" Click="AddMedicineButton_Click" Width="120" Height="30" Margin="0 0 0 10" HorizontalAlignment="Left"
+                     Background="White" Foreground="Black" BorderThickness="0"/>
             <ListBox Name="MedicinesListBox" ItemsSource="{Binding Medicines}" Height="300" Margin="0 0 0 10">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
-                        <Border BorderBrush="LightGray" BorderThickness="1" Margin="2" Padding="5">
+                        <Border BorderBrush="LightGray" BorderThickness="1" Margin="2" Padding="5" CornerRadius="10">
                             <StackPanel>
                                 <TextBlock Text="{Binding MedicineName}" FontWeight="Bold"/>
                                 <TextBlock Text="{Binding Dose}"/>
                                 <TextBlock Text="{Binding Instructions}"/>
+                                <TextBlock>
+                                    <Run Text="с"/>
+                                    <Run Text="{Binding StartDate, StringFormat=\{0:dd.MM.yyyy\}}"/>
+                                </TextBlock>
+                                <TextBlock>
+                                    <Run Text="Сейчас принимается: "/>
+                                    <Run Text="{Binding IsActiveText, Mode=OneWay}"/>
+                                </TextBlock>
+                                <TextBlock>
+                                    <Run Text="Время приема: "/>
+                                    <Run Text="{Binding IntakeTime}"/>
+                                </TextBlock>
                             </StackPanel>
                         </Border>
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
         </StackPanel>
-
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Name="EditButton" Content="Редактировать" Click="EditButton_Click" Width="100" Height="30" Margin="0 0 10 0"/>
-            <Button Name="DeleteButton" Content="Удалить" Click="DeleteButton_Click" Width="100" Height="30"/>
+            <Button Name="EditButton" Content="Редактировать" Click="EditButton_Click" Width="100" Height="30" Margin="0 0 10 0" 
+                    Background="White" Foreground="Black" BorderThickness="0"/>
+            <Button Name="DeleteButton" Content="Удалить" Click="DeleteButton_Click" Width="100" Height="30" 
+                    Background="White" Foreground="Black" BorderThickness="0"/>
         </StackPanel>
     </Grid>
 </UserControl>

@@ -28,8 +28,36 @@ namespace WellBeingDiary.Windows
             currentUser = user;
             _context = appContext;
             InitializeComponent();
-            this.DataContext = this;
+            DataContext = this;
+            ShowUserImage();
             ShowMainPage();
+        }
+        public void ShowUserImage()
+        {
+            if (!string.IsNullOrEmpty(currentUser.PhotoPath))
+            {
+                try
+                {
+                    string path = currentUser.PhotoPath;
+                    if (string.IsNullOrEmpty(path) || !System.IO.File.Exists(path))
+                    {
+                        path = "Images/none.png";
+                    }
+                    if (System.IO.File.Exists(path))
+                    {
+                        BitmapImage bitmap = new();
+                        bitmap.BeginInit();
+                        bitmap.UriSource = new Uri(System.IO.Path.GetFullPath(path), UriKind.Absolute);
+                        bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                        bitmap.EndInit();
+                        UserImage.Source = bitmap;
+                    }
+                }
+                catch
+                {
+                    MessageBox.Show("Ошибка инициализации изображения");
+                }
+            }
         }
         public void ShowMainPage()
         {

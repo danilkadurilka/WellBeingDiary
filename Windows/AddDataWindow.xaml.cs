@@ -25,6 +25,7 @@ namespace WellBeingDiary.Windows
         private User currentUser;
         private DailyData dailyData;
         private Models.AppContext _context;
+        private List<SymptomItem> symptomItems;
         public AddDataWindow(User user, Models.AppContext appContext)
         {
             currentUser = user;
@@ -41,6 +42,17 @@ namespace WellBeingDiary.Windows
                 MessageBox.Show("Ошибка! Данные пользователя не загрузились");
                 return;
             }
+            List<Symptom> allSymptoms = _context.Symptoms.ToList();
+            symptomItems = new List<SymptomItem>();
+            foreach (Symptom? symptom in allSymptoms)
+            {
+                SymptomItem? item = new SymptomItem();
+                item.Id = symptom.Id;
+                item.Name = symptom.Name;
+                item.IsSelected = false;
+                symptomItems.Add(item);
+            }
+            SymptomsItems.ItemsSource = symptomItems;
             DateTime selectedDate = DPDate.SelectedDate ?? DateTime.Today;
             dailyData = _context.DailyData?.FirstOrDefault(d => d.UserId == currentUser.Id && d.Date.Date == selectedDate.Date);
             if (dailyData != null)
@@ -60,7 +72,19 @@ namespace WellBeingDiary.Windows
                     ComboBoxSleepQuality.SelectedIndex = dailyData.SleepQuality.Value - 1;
                 BoxNightAwakening.Text = dailyData.NightAwake?.ToString();
                 BoxSteps.Text = dailyData.StepCount?.ToString();
+                if (!string.IsNullOrEmpty(dailyData.Symptoms))
+                {
+                    var selectedSymptomIds = dailyData.Symptoms.Split(',')
+                        .Where(s => !string.IsNullOrEmpty(s))
+                        .Select(int.Parse)
+                        .ToList();
 
+                    foreach (var item in symptomItems)
+                    {
+                        item.IsSelected = selectedSymptomIds.Contains(item.Id);
+                    }
+                    SymptomsItems.Items.Refresh();
+                }
             }
             else
             {
@@ -108,6 +132,11 @@ namespace WellBeingDiary.Windows
                     MessageBox.Show("Давление и пульс должны быть целыми числами");
                     return false;
                 }
+                catch (OverflowException)
+                {
+                    MessageBox.Show("Превышено допустимое значение!");
+                    return false;
+                }
             }
             if (!string.IsNullOrEmpty(BoxWeight.Text))
             {
@@ -125,6 +154,11 @@ namespace WellBeingDiary.Windows
                     MessageBox.Show("Вес должен быть числом");
                     return false;
                 }
+                catch (OverflowException)
+                {
+                    MessageBox.Show("Превышено допустимое значение!");
+                    return false;
+                }
             }
             if (!string.IsNullOrEmpty(BoxSleepStart.Text) && !string.IsNullOrEmpty(BoxSleepEnd.Text))
             {
@@ -136,6 +170,11 @@ namespace WellBeingDiary.Windows
                 catch (FormatException)
                 {
                     MessageBox.Show("Время сна должно быть указано в формате чч:мм");
+                    return false;
+                }
+                catch (OverflowException)
+                {
+                    MessageBox.Show("Превышено допустимое значение!");
                     return false;
                 }
             }
@@ -155,6 +194,11 @@ namespace WellBeingDiary.Windows
                     MessageBox.Show("Количество ночных пробуждений должно быть целым числом");
                     return false;
                 }
+                catch (OverflowException)
+                {
+                    MessageBox.Show("Превышено допустимое значение!");
+                    return false;
+                }
             }
             if (!string.IsNullOrEmpty(BoxSteps.Text))
             {
@@ -172,6 +216,11 @@ namespace WellBeingDiary.Windows
                     MessageBox.Show("Количество шагов должно быть целым числом");
                     return false;
                 }
+                catch (OverflowException)
+                {
+                    MessageBox.Show("Превышено допустимое значение!");
+                    return false;
+                }
             }
             return true;
         }
@@ -187,10 +236,18 @@ namespace WellBeingDiary.Windows
                 dailyData.SystolicPressure = Convert.ToInt32(BoxSystolic.Text);
                 dailyData.DiastolicPressure = Convert.ToInt32(BoxDiastolic.Text);
                 dailyData.Pulse = Convert.ToInt32(BoxPulse.Text);
-                dailyData.Weight = Convert.ToInt32(BoxWeight.Text);
+                dailyData.Weight = Convert.ToDouble(BoxWeight.Text);
                 dailyData.WellBeingRating = ComboBoxWellBeing.SelectedIndex + 1;
                 dailyData.Notes = BoxNotes.Text;
-                if (!string.IsNullOrEmpty(BoxSleepStart.Text) && !string.IsNullOrEmpty(BoxSleepEnd.Text)) 
+                List<int> selectedSymptomIds = symptomItems.Where(s => s.IsSelected).Select(s => s.Id).ToList();
+                if (selectedSymptomIds.Count > 0)
+                {
+                    dailyData.Symptoms = string.Join(",", selectedSymptomIds);
+                }
+
+                else
+                    dailyData.Symptoms = null;
+                if (!string.IsNullOrEmpty(BoxSleepStart.Text) && !string.IsNullOrEmpty(BoxSleepEnd.Text))
                 {
                     try
                     {
@@ -204,7 +261,6 @@ namespace WellBeingDiary.Windows
                         dailyData.SleepStart = sleepStart;
                         dailyData.SleepEnd = sleepEnd;
                         dailyData.SleepQuality = ComboBoxSleepQuality.SelectedIndex + 1;
-                        dailyData.NightAwake = Convert.ToInt32(BoxNightAwakening.Text);
                     }
                     catch (FormatException)
                     {
@@ -213,6 +269,7 @@ namespace WellBeingDiary.Windows
                     }
 
                 }
+                dailyData.NightAwake = Convert.ToInt32(BoxNightAwakening.Text);
                 dailyData.StepCount = Convert.ToInt32(BoxSteps.Text);
                 dailyData.UpdateAt = DateTime.Now;
                 if (dailyData.Id == 0)
@@ -240,7 +297,23 @@ namespace WellBeingDiary.Windows
 
         private void DPDate_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (!DPDate.SelectedDate.HasValue)
+                return;
+            if (DPDate.SelectedDate > DateTime.Today)
+            {
+                MessageBox.Show("Нельзя вносить данные за следующие дни");
+                DPDate.SelectedDate = DateTime.Today;
+                return;
+            }
             LoadThisDateData();
+            if (DPDate.SelectedDate < DateTime.Today && (dailyData == null || dailyData.Id == 0))
+            {
+                MessageBox.Show("Запрещено создавать новые данные за предыдущие дни. Можно редактировать только существующие записи");
+                DPDate.SelectedDate = DateTime.Today;
+                LoadThisDateData();
+                return;
+            }
+
         }
     }
 }

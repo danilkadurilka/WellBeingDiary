@@ -12,8 +12,6 @@ namespace WellBeingDiary.Models
         public DbSet<User> Users { get; set; }
         public DbSet<DailyData> DailyData { get; set; }
         public DbSet<Medicine> Medicines { get; set; }
-        public DbSet<MedicineSchedule> MedicinesSchedule { get; set; }
-        public DbSet<MedicineIntake> MedicineIntakes { get; set; }
         public DbSet<Report> Reports { get; set; }
         public DbSet<Symptom> Symptoms { get; set; }
         public DbSet<DailySymptom> DailySymptoms { get; set; }

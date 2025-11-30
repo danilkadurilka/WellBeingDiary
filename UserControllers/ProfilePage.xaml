@@ -11,10 +11,11 @@
         <StackPanel Margin="20">
             <TextBlock Text="Профиль пользователя" FontSize="18" FontWeight="Bold" Margin="0 0 0 20"/>
 
-            <Border BorderBrush="Gray" BorderThickness="1" Margin="0 0 0 10" Height="120" Width="120" HorizontalAlignment="Left">
+            <Border BorderBrush="Gray" BorderThickness="0" Margin="0 0 0 10" Height="120" Width="120" HorizontalAlignment="Left">
                 <Image Name="ProfilePhoto" Stretch="Uniform"/>
             </Border>
-            <Button Name="ButtonChangePhoto" Content="Изменить фото" Click="ChangePhotoButton_Click" Width="100" HorizontalAlignment="Left" Margin="0 0 0 20"/>
+            <Button Name="ButtonChangePhoto" Content="Изменить фото" Click="ChangePhotoButton_Click" Width="100" HorizontalAlignment="Left" Margin="0 0 0 20"
+                    Background="White" Foreground="Black" BorderThickness="0"/>
 
             <Grid>
                 <Grid.RowDefinitions>
@@ -32,25 +33,25 @@
                 </Grid.ColumnDefinitions>
 
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="Имя" Margin="0 5"/>
-                <TextBox Grid.Row="0" Grid.Column="1" Name="BoxName" Height="25" Margin="0 5" Text="{Binding currentUser.Name}"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Name="BoxName" Height="25" Margin="0 5"/>
 
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Пол" Margin="0 5"/>
-                <ComboBox Grid.Row="1" Grid.Column="1" Name="ComboBoxGender" Height="25" Margin="0 5" SelectedItem="{Binding currentUser.Gender}">
+                <ComboBox Grid.Row="1" Grid.Column="1" Name="ComboBoxGender" Height="25" Margin="0 5">
                     <ComboBoxItem Content="Мужской"/>
                     <ComboBoxItem Content="Женский"/>
                 </ComboBox>
 
                 <TextBlock Grid.Row="2" Grid.Column="0" Text="Рост (см)" Margin="0 5"/>
-                <TextBox Grid.Row="2" Grid.Column="1" Name="BoxHeight" Height="25" Margin="0 5" Text="{Binding currentUser.Height}"/>
+                <TextBox Grid.Row="2" Grid.Column="1" Name="BoxHeight" Height="25" Margin="0 5"/>
 
                 <TextBlock Grid.Row="3" Grid.Column="0" Text="Вес (кг)" Margin="0,5"/>
-                <TextBox Grid.Row="3" Grid.Column="1" Name="BoxWeight" Height="25" Margin="0 5" Text="{Binding currentUser.Weight}"/>
+                <TextBox Grid.Row="3" Grid.Column="1" Name="BoxWeight" Height="25" Margin="0 5"/>
 
                 <TextBlock Grid.Row="4" Grid.Column="0" Text="Дата рождения" Margin="0 5"/>
                 <DatePicker Grid.Row="4" Grid.Column="1" Name="DPBirthDate" Height="25" Margin="0 5"/>
 
                 <TextBlock Grid.Row="5" Grid.Column="0" Text="Логин" Margin="0 5"/>
-                <TextBox Grid.Row="5" Grid.Column="1" Name="BoxLogin" Height="25" Margin="0 5" Text="{Binding currentUser.Login}"/>
+                <TextBox Grid.Row="5" Grid.Column="1" Name="BoxLogin" Height="25" Margin="0 5"/>
 
                 <TextBlock Grid.Row="6" Grid.Column="0" Text="Пароль" Margin="0 5"/>
                 <StackPanel Grid.Row="6" Grid.Column="1" Orientation="Horizontal">
@@ -62,7 +63,7 @@
             </Grid>
 
             <Button Name="SaveProfileButton" Content="Сохранить изменения" 
-                    Click="SaveProfileButton_Click" Width="150" Height="30" Margin="0 20 0 0"/>
+                    Click="SaveProfileButton_Click" Width="150" Height="30" Margin="0 20 0 0" Background="White" Foreground="Black" BorderThickness="0"/>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

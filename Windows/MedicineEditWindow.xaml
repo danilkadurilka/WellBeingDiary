@@ -5,8 +5,9 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WellBeingDiary.Windows"
         mc:Ignorable="d"
-        Title="Редактирование лекарства" Height="500" Width="430"
-        WindowStartupLocation="CenterScreen">
+        Title="Редактирование лекарства" Height="500" Width="450"
+        WindowStartupLocation="CenterScreen"
+        Icon="/Images/ico.png">
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>

@@ -32,11 +32,10 @@ namespace WellBeingDiary.UserControllers
             InitializeComponent();
             LoadMedicines();
         }
-
         public void LoadMedicines()
         {
-            List<Medicine>? medicines = _context.Medicines?.Where(m => m.UserId == currentUser.Id).Include(m => m.Schedules).ToList();
-            MedicinesListBox.ItemsSource = medicines;
+            List<Medicine>? medicines = _context.Medicines?.Where(m => m.UserId == currentUser.Id).ToList();
+            MedicinesListBox.ItemsSource = medicines;           
         }
 
         private void AddMedicineButton_Click(object sender, RoutedEventArgs e)
@@ -71,8 +70,6 @@ namespace WellBeingDiary.UserControllers
                 {
                     try
                     {
-                        List<MedicineSchedule>? schedules = _context.MedicinesSchedule.Where(s => s.MedicineId == selectedMedicine.Id).ToList();
-                        _context.MedicinesSchedule.RemoveRange(schedules);
                         _context.Medicines.Remove(selectedMedicine);
                         _context.SaveChanges();
                         LoadMedicines();

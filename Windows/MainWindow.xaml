@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:WellBeingDiary.Windows"
         mc:Ignorable="d"
-        Title="Дневник самочувствия" Height="550" Width="400"
+        Title="Дневник самочувствия" Height="500" Width="400"
 		WindowStartupLocation="CenterScreen"
         Icon="/Images/ico.png">
 	<Grid Margin="20">
@@ -15,34 +15,25 @@
 			<RowDefinition Height="*"/>
 			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
+        <Border BorderThickness="0" Margin="0 0 0 10" Height="100" Width="100" HorizontalAlignment="Center" CornerRadius="10">
+            <Image Grid.Row="0" Source="/Images/ico.png"/>
+        </Border>
+        
 
-		<Image Grid.Row="0" Source="/Images/ico.png"
-               Height="100" Width="100"
-               HorizontalAlignment="Center" Margin="0,0,0,20"/>
+		<TextBlock Grid.Row="1" Text="Дневник самочувствия" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" Margin="0 0 0 10"/>
 
-		<TextBlock Grid.Row="1" Text="Дневник самочувствия"
-                   FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" Margin="0,0,0,20"/>
+        <StackPanel Grid.Row="2" VerticalAlignment="Center">
+            <TextBlock Text="Введите ваш логин и пароль" Margin="0 0 0 10" TextAlignment="Center"/>
+            <TextBlock Text="Логин" Margin="0 10 0 5"/>
+            <TextBox Name="BoxLogin" Height="25"/>
 
-		<StackPanel Grid.Row="2" VerticalAlignment="Center">
-			<TextBlock Text="Создайте аккаунт или войдите в существующий"
-                       Margin="0,0,0,10" TextAlignment="Center"/>
-			<TextBlock Text="Введите ваш логин и пароль"
-                       Margin="0,0,0,20" TextAlignment="Center"/>
 
-			<TextBlock Text="Логин" Margin="0,10,0,5"/>
-			<TextBox x:Name="BoxLogin" Height="25"/>
+            <TextBlock Text="Пароль" Margin="0 10 0 5"/>
+			<PasswordBox Name="BoxPassword" Height="25"/>
 
-			<TextBlock Text="Пароль" Margin="0,10,0,5"/>
-			<PasswordBox x:Name="BoxPassword" Height="25"/>
-
-			<Button x:Name="ButtonLogin" Content="Войти"
-                    Click="ButtonLogin_Click" Height="30" Margin="0,20,0,10"/>
-
-			<TextBlock Text="Или продолжить для регистрации"
-                       HorizontalAlignment="Center" Margin="0,10,0,10"/>
-
-			<Button x:Name="ButtonRegister" Content="Регистрация"
-                    Click="ButtonRegister_Click" Height="30"/>
+            <Button Name="ButtonLogin" Content="Войти" Click="ButtonLogin_Click" Height="30" Background="White" Foreground="Black" BorderThickness="0" Margin="0 20 0 10"
+                    IsDefault="True"/>
+            <Button Name="ButtonRegister" Content="Регистрация" Click="ButtonRegister_Click" Background="White" Foreground="Black" BorderThickness="0" Height="30"/>
 		</StackPanel>
 	</Grid>
 </Window>

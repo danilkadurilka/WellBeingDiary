@@ -26,6 +26,12 @@ namespace WellBeingDiary.UserControllers
         private bool isVisiblePassword = false;
         private string realPassword = string.Empty;
         private Models.AppContext _context;
+        private string selectedImagePath = string.Empty;
+        public User CurrentUser
+        {
+            get { return currentUser; }
+            set { currentUser = value; }
+        }
         public ProfilePage(User user, Models.AppContext appContext)
         {
             currentUser = user;
@@ -33,8 +39,10 @@ namespace WellBeingDiary.UserControllers
             InitializeComponent();
             LoadUserData();
         }
+        
         public void LoadUserData() 
         {
+            DataContext = this;
             BoxName.Text = currentUser.Name;
             ComboBoxGender.Text = currentUser.Gender;
             BoxHeight.Text = currentUser.Height.ToString();
@@ -47,7 +55,7 @@ namespace WellBeingDiary.UserControllers
             ViewPasswordButton.Content = "Показать";
             BoxPasswordVisible.Visibility = Visibility.Collapsed;
             BoxPassword.Visibility = Visibility.Visible;
-
+            LoadUserImage();
 
             if (currentUser.DateOfBirth != default)
             {
@@ -58,6 +66,30 @@ namespace WellBeingDiary.UserControllers
             }
         }
 
+        public void LoadUserImage()
+        {
+            try
+            {
+                string path = currentUser.PhotoPath;
+                if (string.IsNullOrEmpty(path) || !System.IO.File.Exists(path))
+                {
+                    path = "Images/none.png";
+                }
+                if (System.IO.File.Exists(path))
+                {
+                    BitmapImage bitmap = new();
+                    bitmap.BeginInit();
+                    bitmap.UriSource = new Uri(System.IO.Path.GetFullPath(path), UriKind.Absolute);
+                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                    bitmap.EndInit();
+                    ProfilePhoto.Source = bitmap;
+                }
+            }
+            catch
+            {
+                MessageBox.Show("Ошибка инициализации изображения");
+            }
+        }
         private void ChangePhotoButton_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
@@ -65,9 +97,8 @@ namespace WellBeingDiary.UserControllers
 
             if (openFileDialog.ShowDialog() == true)
             {
-                currentUser.PhotoPath = openFileDialog.FileName;
-                _context.SaveChanges();
-                MessageBox.Show("Фото обновлено!");
+                selectedImagePath = openFileDialog.FileName;
+                currentUser.PhotoPath = selectedImagePath;
             }
         }
 
@@ -135,8 +166,22 @@ namespace WellBeingDiary.UserControllers
                 {
                     currentUser.DateOfBirth = DateOnly.FromDateTime(DPBirthDate.SelectedDate.Value);
                 }
+                if (!string.IsNullOrEmpty(selectedImagePath))
+                {
+                    string extension = System.IO.Path.GetExtension(selectedImagePath);
+                    string fileName = $"{currentUser.Id}_{currentUser.Login}{extension}";
+                    string imagePath = "./Images/" + fileName;
+                    System.IO.File.Copy(selectedImagePath, imagePath, true);
+                    currentUser.PhotoPath = imagePath;
+                    selectedImagePath = string.Empty;
+                }
+                if (string.IsNullOrEmpty(currentUser.PhotoPath) || !System.IO.File.Exists(currentUser.PhotoPath))
+                {
+                    currentUser.PhotoPath = "./Images/none.png";
+                }
 
                 _context.SaveChanges();
+                LoadUserImage();
                 MessageBox.Show("Изменения сохранены");
             }
             catch (Exception ex) 

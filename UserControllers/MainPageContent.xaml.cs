@@ -23,7 +23,7 @@ namespace WellBeingDiary.UserControllers
     public partial class MainPageContent : UserControl
     {
         private User currentUser;
-        private DailyData todayData;
+        private DailyData selectedData;
         private DateTime currentDate = DateTime.Today;
         private Models.AppContext _context;
         public MainPageContent(User user, Models.AppContext appContext)
@@ -31,41 +31,50 @@ namespace WellBeingDiary.UserControllers
             currentUser = user;
             _context = appContext;
             InitializeComponent();
+            DatePickerControl.SelectedDate = currentDate;
             LoadData(); 
+        }
+        private void DatePickerControl_SelectedDateChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (DatePickerControl.SelectedDate.HasValue)
+            { 
+                currentDate = DatePickerControl.SelectedDate.Value;
+                LoadData();
+            }
         }
         public void LoadData()
         {
-            todayData = _context.DailyData?.FirstOrDefault(d => d.UserId == currentUser.Id && d.Date.Date == currentDate);
-            if (todayData == null)
-                todayData = new DailyData();
+            selectedData = _context.DailyData?.FirstOrDefault(d => d.UserId == currentUser.Id && d.Date.Date == currentDate.Date);
+            if (selectedData == null)
+                selectedData = new DailyData();
             UpdateDataDisplay();
             LoadMedicines();
         }
         public void UpdateDataDisplay()
         {
-            CurrentDateTextBlock.Text = "Сегодня " + currentDate.ToString("dd.MM.yyyy");
-            if (todayData.SystolicPressure.HasValue && todayData.DiastolicPressure.HasValue)
+
+            if (selectedData.SystolicPressure.HasValue && selectedData.DiastolicPressure.HasValue)
             {
                 string pulse = string.Empty;
-                if (todayData.Pulse.HasValue)
+                if (selectedData.Pulse.HasValue)
                 {
-                    pulse = $"{todayData.Pulse}";
+                    pulse = $"{selectedData.Pulse}";
                 }
-                BoxBloodPressure.Text = $"{todayData.SystolicPressure}/{todayData.DiastolicPressure}/{pulse}";
+                BoxBloodPressure.Text = $"{selectedData.SystolicPressure}/{selectedData.DiastolicPressure}/{pulse}";
             }
             else { BoxBloodPressure.Text = "Не указано"; }
                 
 
-            if (todayData.Weight.HasValue)
+            if (selectedData.Weight.HasValue)
             {
-                BoxWeight.Text = $"{todayData.Weight} кг";
+                BoxWeight.Text = $"{selectedData.Weight} кг";
             }
             else { BoxWeight.Text = "Не указан"; }
                 
 
-            if (todayData.WellBeingRating.HasValue)
+            if (selectedData.WellBeingRating.HasValue)
             {
-                int? rating = todayData.WellBeingRating.Value;
+                int? rating = selectedData.WellBeingRating.Value;
                 string ratingText;
 
                 if (rating == 1)
@@ -96,31 +105,60 @@ namespace WellBeingDiary.UserControllers
                 BoxWellBeing.Text = $"{ratingText} ({rating}/5)";
             }
             else { BoxWellBeing.Text = "Не указано"; }
-
-            BoxNotes.Text = todayData.Notes;
-
-
-            if (todayData.SleepStart.HasValue && todayData.SleepEnd.HasValue)
+            if (!string.IsNullOrEmpty(selectedData.Notes))
+                BoxNotes.Text = selectedData.Notes;
+            else
+                BoxNotes.Text = "Заметок нет.\nМожете заполнить :)";
+            if (!string.IsNullOrEmpty(selectedData.Symptoms))
             {
-                TimeSpan sleepTime = todayData.SleepEnd.Value - todayData.SleepStart.Value;
-                string quality = string.Empty;
-                if (todayData.SleepQuality.HasValue)
+                try
                 {
-                    quality = $", качество сна: {todayData.SleepQuality}/5";
+                    List<int> symptomIds = selectedData.Symptoms.Split(',').Where(s => !string.IsNullOrEmpty(s)).Select(int.Parse).ToList();
+                    List<string> symptomNames = _context.Symptoms.Where(s => symptomIds.Contains(s.Id)).Select(s => s.Name).ToList();
+
+                    if (symptomNames.Count > 0)
+                    {
+                        BoxSymptoms.Text = string.Join("\n", symptomNames);
+                    }
+                    else
+                    {
+                        BoxSymptoms.Text = "Нет симптомов";
+                    }
+                }
+                catch (Exception ex)
+                {
+                    BoxSymptoms.Text = "Ошибка загрузки симптомов";
+                    Console.WriteLine($"Ошибка при загрузке симптомов: {ex.Message}");
+                }
+            }
+            else
+            {
+                BoxSymptoms.Text = "Нет симптомов";
+            }
+
+
+            if (selectedData.SleepStart.HasValue && selectedData.SleepEnd.HasValue)
+            {
+                TimeSpan sleepTime = selectedData.SleepEnd.Value - selectedData.SleepStart.Value;
+                string quality = string.Empty;
+                if (selectedData.SleepQuality.HasValue)
+                {
+                    quality = $", качество сна: {selectedData.SleepQuality}/5";
                 }
                 BoxSleep.Text = $"{sleepTime.Hours}ч {sleepTime.Minutes}м{quality}";
             }
             else { BoxSleep.Text = "Не указан"; }
 
-            if (todayData.StepCount.HasValue)
+            if (selectedData.StepCount.HasValue)
             { 
-                BoxSteps.Text = $"{todayData.StepCount} шагов";
+                BoxSteps.Text = $"{selectedData.StepCount} шагов";
             }
             else { BoxSteps.Text = "Не указано"; }
         }
         public void LoadMedicines()
         {
-            List<Medicine>? medicines = _context.Medicines?.Where(m => m.UserId == currentUser.Id && m.IsActive).ToList();
+            List<Medicine>? medicines = _context.Medicines?.Where(m => m.UserId == currentUser.Id && m.IsActive && (m.StartDate.Date <= currentDate.Date) 
+                                        && (m.EndDate.Value.Date >= currentDate.Date)).ToList();
 
             if (medicines != null && medicines.Any())
             {
@@ -133,5 +171,7 @@ namespace WellBeingDiary.UserControllers
                 TextNoMedicines.Visibility = Visibility.Visible;
             }
         }
+
+        
     }
 }

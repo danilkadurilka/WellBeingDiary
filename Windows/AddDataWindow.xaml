@@ -1,12 +1,13 @@
 ﻿<Window x:Class="WellBeingDiary.Windows.AddDataWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	xmlns:local="clr-namespace:WellBeingDiary.Windows"
-	mc:Ignorable="d"
+	    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	    xmlns:local="clr-namespace:WellBeingDiary.Windows"
+	    mc:Ignorable="d"
         Title="Внесение данных за день" Height="600" Width="500"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        Icon="/Images/ico.png">
     <Grid Margin="20">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -60,9 +61,14 @@
                 </GroupBox>
                 <GroupBox Header="Симптомы" Margin="0 10 0 10">
                     <StackPanel Margin="10">
-                        <ScrollViewer Height="100" VerticalScrollBarVisibility="Auto">
-                            <StackPanel Name="SymptomsPanel"/>
-                        </ScrollViewer>
+                        <ItemsControl Name="SymptomsItems">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected}" Tag="{Binding Id}" Margin="0 2"/>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                            
+                        </ItemsControl>
                     </StackPanel>
                 </GroupBox>
                 

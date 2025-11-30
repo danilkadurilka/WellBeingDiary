@@ -18,9 +18,24 @@ namespace WellBeingDiary.Models
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public bool IsActive { get; set; }
+        public string IsActiveText
+        {
+            get
+            {
+                if (IsActive) return "Да";
+                else return "Нет";
+            }
 
-        public List<MedicineSchedule> Schedules { get; set; } = new();
-        public List<MedicineIntake> Intakes { get; set; } = new();
+        }
+
+        public TimeSpan IntakeTime { get; set; }
+        public bool Monday { get; set; }
+        public bool Tuesday { get; set; }
+        public bool Wednesday { get; set; }
+        public bool Thursday { get; set; }
+        public bool Friday { get; set; }
+        public bool Saturday { get; set; }
+        public bool Sunday { get; set; }
 
         public DateTime CreateAt { get; set; } = DateTime.Now;
         public DateTime UpdateAt { get; set; } = DateTime.Now;

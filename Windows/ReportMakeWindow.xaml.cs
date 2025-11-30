@@ -268,6 +268,10 @@ namespace WellBeingDiary.Windows
                         recommendations.Add("Проконсультируйтесь с врачом о возможной гипертонии");
                     if (avgSystolic < 100 || avgDiastolic < 60)
                         recommendations.Add("Увеличьте потребление жидкости");
+                    if (avgPulse > 80)
+                        recommendations.Add("Уменьшите стресс: чем выше уровень стресса, тем более высокий пульс");
+                    if (avgPulse < 60)
+                        recommendations.Add("Добавьте легкие физические нагрузки");
                 }
             }
             else if (reportType == "Отчет по сну")

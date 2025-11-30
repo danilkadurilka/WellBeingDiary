@@ -23,11 +23,11 @@ namespace WellBeingDiary.Windows
     {
         private User newUser = new User();
         private Models.AppContext _context;
+        private string selectedImagePath = string.Empty;
         public RegWindow(Models.AppContext appContext)
         {
             _context = appContext;
             InitializeComponent();
-            this.DataContext = newUser;
         }
         public bool CheckData()
         {
@@ -104,12 +104,12 @@ namespace WellBeingDiary.Windows
         {
             OpenFileDialog openFileDialog = new OpenFileDialog();
             openFileDialog.Filter = "Image files (*.jpg, *.jpeg, *.png)|*.jpg;*.jpeg;*.png";
+            openFileDialog.Title = "Выберите файл:";
 
             if (openFileDialog.ShowDialog() == true)
             {
-                BitmapImage bitmap = new BitmapImage(new System.Uri(openFileDialog.FileName));
-                ImgUserPhoto.Source = bitmap;
-                newUser.PhotoPath = openFileDialog.FileName;
+                selectedImagePath = openFileDialog.FileName;
+                newUser.PhotoPath = selectedImagePath;
             }
         }
 
@@ -127,8 +127,19 @@ namespace WellBeingDiary.Windows
                     newUser.DateOfBirth = DateOnly.FromDateTime(DPBirthDate.SelectedDate.Value);
                 newUser.Password = BoxPassword.Password;
                 newUser.Height = int.Parse(BoxHeight.Text);
-                newUser.Weight = int.Parse(BoxWeight.Text);
+                newUser.Weight = double.Parse(BoxWeight.Text);
                 _context.Users.Add(newUser);
+                _context.SaveChanges();
+                if (!string.IsNullOrEmpty(selectedImagePath))
+                {
+                    string extension = System.IO.Path.GetExtension(selectedImagePath);
+                    string fileName = $"{newUser.Id}_{newUser.Login}{extension}";
+                    string imagePath = "../Images/" + fileName;
+                    System.IO.File.Copy(selectedImagePath, imagePath, true);
+                    newUser.PhotoPath = imagePath;
+                }
+                else
+                    newUser.PhotoPath = "../Images/none.png";
                 _context.SaveChanges();
                 MessageBox.Show("Регистрация завершена!");
                 MainWindow mainWindow = new MainWindow();
