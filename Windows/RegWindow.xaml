@@ -21,15 +21,16 @@
                 <Border BorderBrush="Gray" BorderThickness="0" Margin="0 0 0 10" Height="100" Width="100" HorizontalAlignment="Left" CornerRadius="10">
                     <Image Name="ImgUserPhoto" Source="{Binding PhotoPath}" Stretch="Uniform"/>
                 </Border>
-                <Button Name="AddPhotoButton" Content="Добавить фото" Click="AddPhotoButton_Click" Width="100" HorizontalAlignment="Left" Margin="0 0 0 20"/>
+                <Button Name="AddPhotoButton" Content="Добавить фото" Click="AddPhotoButton_Click" Width="100" HorizontalAlignment="Left" Margin="0 0 0 20"
+                        Background="White" Foreground="Black" BorderThickness="0"/>
 
                 <TextBlock Text="Имя" Margin="0 5 0 5"/>
-                <TextBox x:Name="BoxName" Height="25" Margin="0 0 0 10" Text="{Binding Name}"/>
+                <TextBox Name="BoxName" Height="25" Margin="0 0 0 10" Text="{Binding Name}"/>
 
                 <TextBlock Text="Пол" Margin="0 5 0 5"/>
                 <ComboBox Name="ComboBoxGender" Height="25" Margin="0 0 0 10" SelectedValue="{Binding Gender}">
-                    <ComboBoxItem Content="Мужской"/>
-                    <ComboBoxItem Content="Женский"/>
+                    <ComboBoxItem Content="Мужской" Tag="Мужской"/>
+                    <ComboBoxItem Content="Женский" Tag="Женский"/>
                 </ComboBox>
 
                 <TextBlock Text="Рост (см)" Margin="0 5 0 5"/>
@@ -50,8 +51,10 @@
         </ScrollViewer>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Name="RegButton" Content="Регистрация" Click="RegButton_Click" Width="100" Height="30" Margin="0,0,10,0"/>
-            <Button Name="CancelButton" Content="Отмена" Click="CancelButton_Click" Width="100" Height="30"/>
+            <Button Name="RegButton" Content="Регистрация" Click="RegButton_Click" Width="100" Height="30" Margin="0 0 10 0"
+                    Background="White" Foreground="Black" BorderThickness="0"/>
+            <Button Name="CancelButton" Content="Отмена" Click="CancelButton_Click" Width="100" Height="30"
+                    Background="White" Foreground="Black" BorderThickness="0"/>
         </StackPanel>
     </Grid>
 </Window>

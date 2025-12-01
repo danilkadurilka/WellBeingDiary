@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -31,17 +32,17 @@ namespace WellBeingDiary.Windows
         }
         public bool CheckData()
         {
-            if (string.IsNullOrWhiteSpace(newUser.Name))
+            if (string.IsNullOrWhiteSpace(BoxName.Text))
             {
                 MessageBox.Show("Имя не может быть пустым");
                 return false;
             }
-            if (string.IsNullOrWhiteSpace(newUser.Login))
+            if (string.IsNullOrWhiteSpace(BoxLogin.Text))
             {
                 MessageBox.Show("Логин пользователя не может быть пустым");
                 return false;
             }
-            if (_context.Users.Any(u => u.Login == newUser.Login))
+            if (_context.Users.Any(u => u.Login == BoxLogin.Text))
             {
                 MessageBox.Show("Пользователь с таким логином уже существует");
                 return false;
@@ -110,6 +111,12 @@ namespace WellBeingDiary.Windows
             {
                 selectedImagePath = openFileDialog.FileName;
                 newUser.PhotoPath = selectedImagePath;
+                BitmapImage bitmap = new();
+                bitmap.BeginInit();
+                bitmap.UriSource = new Uri(System.IO.Path.GetFullPath(selectedImagePath), UriKind.Absolute);
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.EndInit();
+                ImgUserPhoto.Source = bitmap;
             }
         }
 
@@ -119,17 +126,21 @@ namespace WellBeingDiary.Windows
                 return;
             try
             {
-                if (_context.Users.Any())
-                    newUser.Id = _context.Users.Max(u => u.Id) + 1;
-                else
-                    newUser.Id = 1;
+                newUser.Name = BoxName.Text;
+                newUser.Login = BoxLogin.Text;
+                newUser.Password = BoxPassword.Password;
+                if (ComboBoxGender.SelectedItem ==  null)
+                {
+                    MessageBox.Show("Выберите пол");
+                    return;
+                }
+                newUser.Gender = (ComboBoxGender.SelectedItem as ComboBoxItem)?.Tag?.ToString();
+                if (!string.IsNullOrWhiteSpace(BoxHeight.Text))
+                    newUser.Height = int.Parse(BoxHeight.Text);
+                if (!string.IsNullOrWhiteSpace(BoxWeight.Text))
+                    newUser.Weight = double.Parse(BoxWeight.Text);
                 if (DPBirthDate.SelectedDate.HasValue)
                     newUser.DateOfBirth = DateOnly.FromDateTime(DPBirthDate.SelectedDate.Value);
-                newUser.Password = BoxPassword.Password;
-                newUser.Height = int.Parse(BoxHeight.Text);
-                newUser.Weight = double.Parse(BoxWeight.Text);
-                _context.Users.Add(newUser);
-                _context.SaveChanges();
                 if (!string.IsNullOrEmpty(selectedImagePath))
                 {
                     string extension = System.IO.Path.GetExtension(selectedImagePath);
@@ -140,6 +151,7 @@ namespace WellBeingDiary.Windows
                 }
                 else
                     newUser.PhotoPath = "../Images/none.png";
+                _context.Users.Add(newUser);
                 _context.SaveChanges();
                 MessageBox.Show("Регистрация завершена!");
                 MainWindow mainWindow = new MainWindow();
