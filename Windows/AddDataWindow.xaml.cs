@@ -306,9 +306,9 @@ namespace WellBeingDiary.Windows
                 return;
             }
             LoadThisDateData();
-            if (DPDate.SelectedDate < DateTime.Today && (dailyData == null || dailyData.Id == 0))
+            if (DPDate.SelectedDate < DateTime.Today.AddDays(-1) && (dailyData == null || dailyData.Id == 0))
             {
-                MessageBox.Show("Запрещено создавать новые данные за предыдущие дни. Можно редактировать только существующие записи");
+                MessageBox.Show("Запрещено создавать новые данные за предыдущие дни. Можно создать запись за вчерашний день или редактировать только существующие записи");
                 DPDate.SelectedDate = DateTime.Today;
                 LoadThisDateData();
                 return;

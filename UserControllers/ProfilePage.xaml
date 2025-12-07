@@ -5,65 +5,64 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WellBeingDiary.UserControllers"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="500">
+             d:DesignHeight="450" d:DesignWidth="500"
+             Background="#FFF9F5">
 
-    <ScrollViewer VerticalScrollBarVisibility="Auto">
-        <StackPanel Margin="20">
-            <TextBlock Text="Профиль пользователя" FontSize="18" FontWeight="Bold" Margin="0 0 0 20"/>
+    <StackPanel Margin="10">
+        <TextBlock Text="👤 Профиль пользователя" FontSize="18" FontWeight="Bold" Margin="0 0 0 20"/>
 
-            <Border BorderBrush="Gray" BorderThickness="0" Margin="0 0 0 10" Height="120" Width="120" HorizontalAlignment="Left">
-                <Image Name="ProfilePhoto" Stretch="Uniform"/>
-            </Border>
-            <Button Name="ButtonChangePhoto" Content="Изменить фото" Click="ChangePhotoButton_Click" Width="100" HorizontalAlignment="Left" Margin="0 0 0 20"
-                    Background="White" Foreground="Black" BorderThickness="0"/>
+        <Border Margin="0 0 0 10" Height="100" Width="100" HorizontalAlignment="Left" BorderThickness="2" BorderBrush="#9B8BEA" ClipToBounds="True">
+            <Image Name="ProfilePhoto" Stretch="Fill"/>
+        </Border>
+        <Button Name="ButtonChangePhoto" Content="📷 Изменить фото" Click="ChangePhotoButton_Click" Width="115" Height="25" HorizontalAlignment="Left" Margin="0 0 0 20"
+                   Background="#9B8BEA" Foreground="White" BorderThickness="0"/>
 
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                    <RowDefinition Height="Auto"/>
-                </Grid.RowDefinitions>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="150"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
 
-                <TextBlock Grid.Row="0" Grid.Column="0" Text="Имя" Margin="0 5"/>
-                <TextBox Grid.Row="0" Grid.Column="1" Name="BoxName" Height="25" Margin="0 5"/>
+            <TextBlock Grid.Row="0" Grid.Column="0" Text="🔤 Имя" Margin="0 5"/>
+            <TextBox Grid.Row="0" Grid.Column="1" Name="BoxName" Height="25" Margin="0 5" BorderBrush="#EDE1D5" BorderThickness="1"/>
 
-                <TextBlock Grid.Row="1" Grid.Column="0" Text="Пол" Margin="0 5"/>
-                <ComboBox Grid.Row="1" Grid.Column="1" Name="ComboBoxGender" Height="25" Margin="0 5">
-                    <ComboBoxItem Content="Мужской"/>
-                    <ComboBoxItem Content="Женский"/>
-                </ComboBox>
+            <TextBlock Grid.Row="1" Grid.Column="0" Text="⚪ Пол" Margin="0 5"/>
+            <ComboBox Grid.Row="1" Grid.Column="1" Name="ComboBoxGender" Height="25" Margin="0 5" BorderBrush="#EDE1D5" BorderThickness="1">
+                <ComboBoxItem Content="Мужской"/>
+                <ComboBoxItem Content="Женский"/>
+            </ComboBox>
 
-                <TextBlock Grid.Row="2" Grid.Column="0" Text="Рост (см)" Margin="0 5"/>
-                <TextBox Grid.Row="2" Grid.Column="1" Name="BoxHeight" Height="25" Margin="0 5"/>
+            <TextBlock Grid.Row="2" Grid.Column="0" Text="📈 Рост (см)" Margin="0 5"/>
+            <TextBox Grid.Row="2" Grid.Column="1" Name="BoxHeight" Height="25" Margin="0 5" BorderBrush="#EDE1D5" BorderThickness="1"/>
 
-                <TextBlock Grid.Row="3" Grid.Column="0" Text="Вес (кг)" Margin="0,5"/>
-                <TextBox Grid.Row="3" Grid.Column="1" Name="BoxWeight" Height="25" Margin="0 5"/>
+            <TextBlock Grid.Row="3" Grid.Column="0" Text="⚖️ Вес (кг)" Margin="0 5"/>
+            <TextBox Grid.Row="3" Grid.Column="1" Name="BoxWeight" Height="25" Margin="0 5" BorderBrush="#EDE1D5" BorderThickness="1"/>
 
-                <TextBlock Grid.Row="4" Grid.Column="0" Text="Дата рождения" Margin="0 5"/>
-                <DatePicker Grid.Row="4" Grid.Column="1" Name="DPBirthDate" Height="25" Margin="0 5"/>
+            <TextBlock Grid.Row="4" Grid.Column="0" Text="🎂 Дата рождения" Margin="0 5"/>
+            <DatePicker Grid.Row="4" Grid.Column="1" Name="DPBirthDate" Height="25" BorderBrush="#EDE1D5" BorderThickness="1" Margin="0 5"/>
 
-                <TextBlock Grid.Row="5" Grid.Column="0" Text="Логин" Margin="0 5"/>
-                <TextBox Grid.Row="5" Grid.Column="1" Name="BoxLogin" Height="25" Margin="0 5"/>
+            <TextBlock Grid.Row="5" Grid.Column="0" Text="➜] Логин" Margin="0 5"/>
+            <TextBox Grid.Row="5" Grid.Column="1" Name="BoxLogin" Height="25" BorderBrush="#EDE1D5" BorderThickness="1" Margin="0 5"/>
 
-                <TextBlock Grid.Row="6" Grid.Column="0" Text="Пароль" Margin="0 5"/>
-                <StackPanel Grid.Row="6" Grid.Column="1" Orientation="Horizontal">
-                    <PasswordBox Name="BoxPassword" Height="25" Margin="0 5" Width="180"/>
-                    <TextBox Name="BoxPasswordVisible" Height="25" Margin="0 5" Width="180" Visibility="Collapsed"/>
-                    <Button Name="ViewPasswordButton" Content="Показать" Width="70" Margin="5 5 0 5" Click="ViewPasswordButton_Click"
-                                            Background="White" Foreground="Black" BorderThickness="0"/>
-                </StackPanel>
-            </Grid>
+            <TextBlock Grid.Row="6" Grid.Column="0" Text="🔑 Пароль" Margin="0 5"/>
+            <StackPanel Grid.Row="6" Grid.Column="1" Orientation="Horizontal">
+                <PasswordBox Name="BoxPassword" Height="25" Margin="0 5" Width="180" BorderBrush="#EDE1D5" BorderThickness="1"/>
+                <TextBox Name="BoxPasswordVisible" Height="25" Margin="0 5" Width="180" Visibility="Collapsed" BorderBrush="#EDE1D5" BorderThickness="1"/>
+                <Button Name="ViewPasswordButton" Content="🙈" Width="70" Margin="5 5 0 5" Click="ViewPasswordButton_Click"
+                                            Background="#F5F2FF" Foreground="#9B8BEA" BorderThickness="0"/>
+            </StackPanel>
+        </Grid>
 
-            <Button Name="SaveProfileButton" Content="Сохранить изменения" 
-                    Click="SaveProfileButton_Click" Width="150" Height="30" Margin="0 20 0 0" Background="White" Foreground="Black" BorderThickness="0"/>
-        </StackPanel>
-    </ScrollViewer>
+        <Button Name="SaveProfileButton" Content="💾 Сохранить" 
+                    Click="SaveProfileButton_Click" Width="150" Height="30" Margin="0 20 0 0" Background="#9B8BEA" Foreground="White" BorderThickness="0" FontWeight="SemiBold"/>
+    </StackPanel>
 </UserControl>

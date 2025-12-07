@@ -157,8 +157,8 @@ namespace WellBeingDiary.UserControllers
         }
         public void LoadMedicines()
         {
-            List<Medicine>? medicines = _context.Medicines?.Where(m => m.UserId == currentUser.Id && m.IsActive && (m.StartDate.Date <= currentDate.Date) 
-                                        && (m.EndDate.Value.Date >= currentDate.Date)).ToList();
+            List<Medicine>? medicines = _context.Medicines?.Where(m => m.UserId == currentUser.Id && m.IsActive && m.StartDate.Date <= currentDate.Date
+                                        && (m.EndDate == null || m.EndDate.Value.Date >= currentDate.Date)).ToList();
 
             if (medicines != null && medicines.Any())
             {

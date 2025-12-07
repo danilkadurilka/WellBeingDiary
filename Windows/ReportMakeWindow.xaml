@@ -8,50 +8,60 @@
         mc:Ignorable="d"
         Title="Создание отчетов" Height="700" Width="800"
         WindowStartupLocation="CenterScreen"
-        Icon="/Images/ico.png">
-    <Grid Margin="20">
+        Icon="/Images/ico.png"
+        Background="#FFF9F5">
+    <Grid Margin="15">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
+
         <TextBlock Grid.Row="0" Text="Создание отчетов" FontSize="18" FontWeight="Bold" Margin="0 0 0 20"/>
-        <StackPanel Grid.Row="1">
-            <TextBlock Text="Тип отчета" Margin="0 5 0 5"/>
-            <ComboBox Name="ComboBoxReportType" Height="25" Margin="0 0 0 10" SelectionChanged="ComboBoxReportType_SelectionChanged">
-                <ComboBoxItem Content="Отчет по самочувствию"/>
-                <ComboBoxItem Content="Отчет по давлению"/>
-                <ComboBoxItem Content="Отчет по сну"/>
-                <ComboBoxItem Content="Отчет по двигательной активности"/>
-                <ComboBoxItem Content="Отчет по весу"/>
-            </ComboBox>
-            <StackPanel Orientation="Horizontal" Margin="0 5 0 10">
-                <StackPanel>
-                    <TextBlock Text="Начальная дата" Margin="0 5 0 5"/>
-                    <DatePicker Name="DPStartDate" Height="25" Width="100" Margin="0 0 10 0"/>
+        <Border Grid.Row="1" Background="White" CornerRadius="10" Margin="0 0 0 15">
+            <StackPanel>
+                <TextBlock Text="Выберите тип отчета:" Margin="0 0 0 8"/>
+                <ComboBox Name="ComboBoxReportType" Height="25" Margin="5 0 5 10"  SelectionChanged="ComboBoxReportType_SelectionChanged" BorderBrush="#EDE1D5" BorderThickness="1">
+                    <ComboBoxItem Content="Отчет по самочувствию"/>
+                    <ComboBoxItem Content="Отчет по давлению"/>
+                    <ComboBoxItem Content="Отчет по сну"/>
+                    <ComboBoxItem Content="Отчет по двигательной активности"/>
+                    <ComboBoxItem Content="Отчет по весу"/>
+                </ComboBox>
+                <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
+                    <StackPanel>
+                        <TextBlock Text="Начальная дата" Margin="0 5 0 5"/>
+                        <DatePicker Name="DPStartDate" Height="25" Width="100" Margin="0 0 10 0" BorderBrush="#EDE1D5" BorderThickness="1"/>
+                    </StackPanel>
+                    <StackPanel>
+                        <TextBlock Text="Конечная дата" Margin="0 5 0 5"/>
+                        <DatePicker Name="DPEndDate" Height="25" Width="100" Margin="0 0 10 0" BorderBrush="#EDE1D5" BorderThickness="1"/>
+                    </StackPanel>
                 </StackPanel>
-                <StackPanel>
-                    <TextBlock Text="Конечная дата" Margin="0 5 0 5"/>
-                    <DatePicker Name="DPEndDate" Height="25" Width="100" Margin="0 0 10 0"/>
-                </StackPanel>
+                <Button Name="GenerateReportButton" Content="🔄 Сгенерировать отчет" Click="GenerateReportButton_Click" Height="30"
+Foreground="White" Background="#9B8BEA" BorderThickness="0"/>
             </StackPanel>
-            <Button Name="GenerateReportButton" Content="Сгенерировать отчет" Click="GenerateReportButton_Click" Height="30"
-        Background="White" Foreground="Black" BorderThickness="0"/>
-        </StackPanel>
-        <TabControl Grid.Row="2">
-            <TabItem Header="Текстовый отчет">
-                <TextBox Name="BoxReport" Height="300" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" IsReadOnly="True" Background="WhiteSmoke" Padding="10"/>
-            </TabItem>
-            <TabItem Header="Представление графиком" Name="ChartTab">
-                <lvc:CartesianChart Name="ReportChart" Series="{Binding ReportCollection}" LegendLocation="Right"/>
-            </TabItem>
-        </TabControl>
+        </Border>
+        <Border Grid.Row="2" CornerRadius="10" Margin="0 0 0 10">
+            <TabControl>
+                <TabItem Header="📄 Текстовый отчет" Background="#F5F2FF" BorderBrush="#EDE1D5" BorderThickness="1">
+                    <Border Background="#FDF6F0" CornerRadius="0 0 10 10">
+                        <TextBox Name="BoxReport" Height="300" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" BorderThickness ="0" IsReadOnly="True" Background="Transparent" Padding="10"/>
+                    </Border>
+                </TabItem>
+                <TabItem Header="📈 График" Name="ChartTab" Background="#F5F2FF" BorderBrush="#EDE1D5" BorderThickness="1">
+                    <Border Background="#FDF6F0" CornerRadius="0 0 10 10">
+                        <lvc:CartesianChart Name="ReportChart" Series="{Binding ReportCollection}" LegendLocation="Right" Background="Transparent"/>
+                    </Border>
+                </TabItem>
+            </TabControl>
+        </Border>
         <StackPanel Grid.Row="3" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 20 0 0">
-            <Button Name="SaveReportButton" Content="Сохранить отчет" Click="SaveReportButton_Click" Width="100" Height="30" Margin="0 0 10 0" 
-                Background="White" Foreground="Black" BorderThickness="0"/>
-            <Button Name="CloseButton" Content="Закрыть" Click="CloseButton_Click" Width="100" Height="30"
-                Background="White" Foreground="Black" BorderThickness="0"/>
+            <Button Name="SaveReportButton" Content="💾 Сохранить" Click="SaveReportButton_Click" Width="100" Height="30" Margin="0 0 10 0" 
+                Background="#9B8BEA" Foreground="White" BorderThickness="0"/>
+            <Button Name="CloseButton" Content="❌ Отмена" Click="CloseButton_Click" Width="100" Height="30"
+                Background="White" BorderBrush="#EDE1D5" BorderThickness="1"/>
         </StackPanel>
     </Grid>
 </Window>

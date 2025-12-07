@@ -1,9 +1,10 @@
 ﻿<Window x:Class="WellBeingDiary.Windows.RegWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="Регистрация нового пользователя" Height="500" Width="400"
+        Title="Регистрация нового пользователя" Height="750" Width="400"
         WindowStartupLocation="CenterScreen"
-        Icon="/Images/ico.png">
+        Icon="/Images/ico.png"
+        Background="#FFF9F5">
     
     <Grid Margin="20">
         <Grid.RowDefinitions>
@@ -14,47 +15,48 @@
 
         <TextBlock Grid.Row="0" Text="Регистрация нового пользователя" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" Margin="0 0 0 20"/>
 
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+        <Border Grid.Row="1" CornerRadius="10">
             <StackPanel>
                 <TextBlock Text="Создайте аккаунт, заполняя поля" Margin="0 0 0 10"/>
 
-                <Border BorderBrush="Gray" BorderThickness="0" Margin="0 0 0 10" Height="100" Width="100" HorizontalAlignment="Left" CornerRadius="10">
-                    <Image Name="ImgUserPhoto" Source="{Binding PhotoPath}" Stretch="Uniform"/>
+                <Border Margin="0 0 0 10" Height="100" Width="100" HorizontalAlignment="Left" BorderThickness="2" BorderBrush="#9B8BEA" ClipToBounds="True">
+                    <Image Name="ImgUserPhoto" Source="{Binding PhotoPath}" Stretch="Fill"/>
                 </Border>
-                <Button Name="AddPhotoButton" Content="Добавить фото" Click="AddPhotoButton_Click" Width="100" HorizontalAlignment="Left" Margin="0 0 0 20"
-                        Background="White" Foreground="Black" BorderThickness="0"/>
+
+                <Button Name="AddPhotoButton" Content="➕ Добавить фото" Click="AddPhotoButton_Click" Width="110" HorizontalAlignment="Left" Margin="0 0 0 20"
+                    Background="#9B8BEA" Foreground="White" BorderThickness="0"/>
 
                 <TextBlock Text="Имя" Margin="0 5 0 5"/>
-                <TextBox Name="BoxName" Height="25" Margin="0 0 0 10" Text="{Binding Name}"/>
+                <TextBox Name="BoxName" Height="25" Margin="0 0 0 10" BorderBrush="#EDE1D5" BorderThickness="1" Text="{Binding Name}"/>
 
                 <TextBlock Text="Пол" Margin="0 5 0 5"/>
-                <ComboBox Name="ComboBoxGender" Height="25" Margin="0 0 0 10" SelectedValue="{Binding Gender}">
+                <ComboBox Name="ComboBoxGender" Height="25" Margin="0 0 0 10" BorderBrush="#EDE1D5" BorderThickness="1" SelectedValue="{Binding Gender}">
                     <ComboBoxItem Content="Мужской" Tag="Мужской"/>
                     <ComboBoxItem Content="Женский" Tag="Женский"/>
                 </ComboBox>
 
                 <TextBlock Text="Рост (см)" Margin="0 5 0 5"/>
-                <TextBox Name="BoxHeight" Height="25" Margin="0 0 0 10" Text="{Binding Height}"/>
+                <TextBox Name="BoxHeight" Height="25" Margin="0 0 0 10" BorderBrush="#EDE1D5" BorderThickness="1" Text="{Binding Height}"/>
 
-                <TextBlock Text="Вес (кг)" Margin="0,5,0,5"/>
-                <TextBox Name="BoxWeight" Height="25" Margin="0 0 0 10" Text="{Binding Weight}"/>
+                <TextBlock Text="Вес (кг)" Margin="0 5 0 5"/>
+                <TextBox Name="BoxWeight" Height="25" Margin="0 0 0 10" BorderBrush="#EDE1D5" BorderThickness="1" Text="{Binding Weight}"/>
 
                 <TextBlock Text="Дата рождения" Margin="0 5 0 5"/>
-                <DatePicker Name="DPBirthDate" Height="25" Margin="0 0 0 10"/>
+                <DatePicker Name="DPBirthDate" Height="25" Margin="0 0 0 10" BorderBrush="#EDE1D5" BorderThickness="1"/>
 
                 <TextBlock Text="Логин" Margin="0 5 0 5"/>
-                <TextBox Name="BoxLogin" Height="25" Margin="0 0 0 10"/>
+                <TextBox Name="BoxLogin" Height="25" Margin="0 0 0 10" BorderBrush="#EDE1D5" BorderThickness="1"/>
 
                 <TextBlock Text="Пароль" Margin="0 5 0 5"/>
-                <PasswordBox Name="BoxPassword" Height="25" Margin="0 0 0 20"/>
+                <PasswordBox Name="BoxPassword" Height="25" Margin="0 0 0 20" BorderBrush="#EDE1D5" BorderThickness="1"/>
             </StackPanel>
-        </ScrollViewer>
+        </Border>
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Name="RegButton" Content="Регистрация" Click="RegButton_Click" Width="100" Height="30" Margin="0 0 10 0"
-                    Background="White" Foreground="Black" BorderThickness="0"/>
-            <Button Name="CancelButton" Content="Отмена" Click="CancelButton_Click" Width="100" Height="30"
-                    Background="White" Foreground="Black" BorderThickness="0"/>
+            <Button Name="RegButton" Content="⏺️ Регистрация" Click="RegButton_Click" Width="110" Height="30" Margin="0 0 10 0"
+                    Background="#9B8BEA" Foreground="White" BorderThickness="0"/>
+            <Button Name="CancelButton" Content="❌ Отмена" Click="CancelButton_Click" Width="100" Height="30"
+                    Background="White" BorderBrush="#EDE1D5" BorderThickness="1"/>
         </StackPanel>
     </Grid>
 </Window>

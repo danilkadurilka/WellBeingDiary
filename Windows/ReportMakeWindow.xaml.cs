@@ -228,7 +228,6 @@ namespace WellBeingDiary.Windows
                 changeInDay = 0;
             sb.AppendLine($"Начальное значение: {firstWeight} кг");
             sb.AppendLine($"Конечное значение: {lastWeight} кг");
-            sb.AppendLine($"{weightChange:+#;-#;0}");
             sb.AppendLine($"Темп изменения: {changeInDay:f2} кг в день");
             sb.AppendLine();
             sb.AppendLine("Динамика изменений:");

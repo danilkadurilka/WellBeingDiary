@@ -7,7 +7,9 @@
         mc:Ignorable="d"
         Title="Дневник самочувствия" Height="500" Width="400"
 		WindowStartupLocation="CenterScreen"
-        Icon="/Images/ico.png">
+        Icon="/Images/ico.png"
+        Background="#FFF9F5"
+        Foreground="#5A4B3F">
 	<Grid Margin="20">
 		<Grid.RowDefinitions>
 			<RowDefinition Height="Auto"/>
@@ -15,25 +17,26 @@
 			<RowDefinition Height="*"/>
 			<RowDefinition Height="Auto"/>
 		</Grid.RowDefinitions>
-        <Border BorderThickness="0" Margin="0 0 0 10" Height="100" Width="100" HorizontalAlignment="Center" CornerRadius="10">
+        <Border BorderThickness="0" Margin="0 0 0 20" Height="100" Width="100" HorizontalAlignment="Center">
             <Image Grid.Row="0" Source="/Images/ico.png"/>
         </Border>
         
 
-		<TextBlock Grid.Row="1" Text="Дневник самочувствия" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" Margin="0 0 0 10"/>
+		<TextBlock Grid.Row="1" Text="Дневник самочувствия" FontSize="18" FontWeight="Bold" HorizontalAlignment="Center" Margin="0 0 0 20"/>
 
         <StackPanel Grid.Row="2" VerticalAlignment="Center">
             <TextBlock Text="Введите ваш логин и пароль" Margin="0 0 0 10" TextAlignment="Center"/>
             <TextBlock Text="Логин" Margin="0 10 0 5"/>
-            <TextBox Name="BoxLogin" Height="25"/>
+            <TextBox Name="BoxLogin" Height="25" Foreground="#5A4B3F" BorderBrush="#9B8BEA" BorderThickness="1"/>
 
 
             <TextBlock Text="Пароль" Margin="0 10 0 5"/>
 			<PasswordBox Name="BoxPassword" Height="25"/>
 
-            <Button Name="ButtonLogin" Content="Войти" Click="ButtonLogin_Click" Height="30" Background="White" Foreground="Black" BorderThickness="0" Margin="0 20 0 10"
-                    IsDefault="True"/>
-            <Button Name="ButtonRegister" Content="Регистрация" Click="ButtonRegister_Click" Background="White" Foreground="Black" BorderThickness="0" Height="30"/>
+            <Button Name="ButtonLogin" Content="Войти" Click="ButtonLogin_Click" Height="30" Background="#9B8BEA" Foreground="White" BorderThickness="0" Margin="0 20 0 10"
+                    FontWeight="SemiBold" IsDefault="True" Cursor=""/>
+            <Button Name="ButtonRegister" Content="Регистрация" Click="ButtonRegister_Click" Background="Transparent" Foreground="#9B8BEA" 
+                    BorderBrush="#9B8BEA" BorderThickness="1" Height="30" FontWeight="SemiBold"/>
 		</StackPanel>
 	</Grid>
 </Window>

@@ -52,7 +52,7 @@ namespace WellBeingDiary.UserControllers
             BoxPassword.Password = "********";
             BoxPasswordVisible.Text = realPassword;
             isVisiblePassword = false;
-            ViewPasswordButton.Content = "Показать";
+            ViewPasswordButton.Content = "🙈";
             BoxPasswordVisible.Visibility = Visibility.Collapsed;
             BoxPassword.Visibility = Visibility.Visible;
             LoadUserImage();
@@ -197,7 +197,7 @@ namespace WellBeingDiary.UserControllers
                 BoxPasswordVisible.Text = realPassword;
                 BoxPassword.Visibility = Visibility.Collapsed;
                 BoxPasswordVisible.Visibility = Visibility.Visible;
-                ViewPasswordButton.Content = "Скрыть";
+                ViewPasswordButton.Content = "🐵";
             }
             else
             {
@@ -206,7 +206,7 @@ namespace WellBeingDiary.UserControllers
                 BoxPassword.Password = "********";
                 BoxPasswordVisible.Visibility = Visibility.Collapsed;
                 BoxPassword.Visibility = Visibility.Visible;
-                ViewPasswordButton.Content = "Показать";
+                ViewPasswordButton.Content = "🙈";
             }
             isVisiblePassword = !isVisiblePassword;
         }

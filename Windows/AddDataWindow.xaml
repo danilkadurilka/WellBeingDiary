@@ -7,8 +7,9 @@
 	    mc:Ignorable="d"
         Title="Внесение данных за день" Height="600" Width="500"
         WindowStartupLocation="CenterScreen"
-        Icon="/Images/ico.png">
-    <Grid Margin="20">
+        Icon="/Images/ico.png"
+        Background="#FFF9F5">
+    <Grid Margin="15">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -17,103 +18,115 @@
 
         <TextBlock Grid.Row="0" Text="Внесение данных за день" FontSize="18" FontWeight="Bold" Margin="0 0 0 20"/>
 
-        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
-            <StackPanel>
-                <TextBlock Text="Дата" Margin="0 5 0 5"/>
-                <DatePicker Name="DPDate" Height="25" Margin="0 0 0 10" SelectedDateChanged="DPDate_SelectedDateChanged"/>
+        <Border Grid.Row="1" Background="#FFFFFF" CornerRadius="10" Padding="15">
+            <ScrollViewer  VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <TextBlock Text="Дата" Margin="0 5 0 5"/>
+                    <DatePicker Name="DPDate" Height="25" Margin="0 0 0 10" BorderBrush="#EDE1D5" BorderThickness="1" SelectedDateChanged="DPDate_SelectedDateChanged"/>
 
-                <GroupBox Header="Артериальное давление и пульс" Margin="0 10 0 10">
-                    <StackPanel Margin="10">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBox Name="BoxSystolic" Width="60" Height="25" Margin="0 0 5 0"/>
-                            <TextBlock Text="/" VerticalAlignment="Center"/>
-                            <TextBox Name="BoxDiastolic" Width="60" Height="25" Margin="5 0 5 0"/>
-                            <TextBlock Text="мм.рт.ст." VerticalAlignment="Center" Margin="0 0 15 0"/>
-                            <TextBlock Text="Пульс:" VerticalAlignment="Center"/>
-                            <TextBox Name="BoxPulse" Width="60" Height="25" Margin="5 0 0 0"/>
-                            <TextBlock Text="уд/мин" VerticalAlignment="Center" Margin="5 0 0 0"/>
+                    <Border Margin="0 0 0 10" Padding="15" Background="#FDF6F0" CornerRadius="10" BorderThickness="1" BorderBrush="#EDE1D5">
+                        <StackPanel>
+                            <TextBlock Text="Давление и пульс" FontWeight="Bold" Margin="0 0 0 10"/>
+                            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                                <TextBox Name="BoxSystolic" Width="60" Height="25" Margin="0 0 5 0" BorderBrush="#EDE1D5" BorderThickness="1" TextAlignment="Center"/>
+                                <TextBlock Text="/" VerticalAlignment="Center"/>
+                                <TextBox Name="BoxDiastolic" Width="60" Height="25" Margin="5 0 5 0" BorderBrush="#EDE1D5" BorderThickness="1" TextAlignment="Center"/>
+                                <TextBlock Text="мм.рт.ст." VerticalAlignment="Center" Margin="0 0 15 0"/>
+                                <TextBlock Text="Пульс:" VerticalAlignment="Center"/>
+                                <TextBox Name="BoxPulse" Width="60" Height="25" Margin="5 0 0 0" BorderBrush="#EDE1D5" BorderThickness="1" TextAlignment="Center"/>
+                                <TextBlock Text="уд/мин" VerticalAlignment="Center" Margin="5 0 0 0"/>
+                            </StackPanel>
                         </StackPanel>
-                    </StackPanel>
-                </GroupBox>
+                    </Border>
 
-                <GroupBox Header="Вес" Margin="0 10 0 10">
-                    <StackPanel Margin="10">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBox Name="BoxWeight" Height="25" Width="60" HorizontalAlignment="Left" Margin="0 0 5 0"/>
-                            <TextBlock Text="кг" VerticalAlignment="Center"/>
+                    <Border Margin="0 0 0 10" Padding="15" Background="#FDF6F0" CornerRadius="10" BorderThickness="1" BorderBrush="#EDE1D5">
+                        <StackPanel>
+                            <TextBlock Text="Вес" FontWeight="Bold" Margin="0 0 0 10"/>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox Name="BoxWeight" Height="25" Width="60" HorizontalAlignment="Left" BorderBrush="#EDE1D5" BorderThickness="1" TextAlignment="Center"/>
+                                <TextBlock Text="кг" Margin="5 0 0 0" VerticalAlignment="Center"/>
+                            </StackPanel>
                         </StackPanel>
-                    </StackPanel>
-                </GroupBox>
+                    </Border>
 
-                <GroupBox Header="Самочувствие и настроение" Margin="0 10 0 10">
-                    <StackPanel Margin="10">
-                        <ComboBox Name="ComboBoxWellBeing" Height="25" Margin="0 0 0 5">
-                            <ComboBoxItem Content="1 - Плохое"/>
-                            <ComboBoxItem Content="2 - Удовлетворительное"/>
-                            <ComboBoxItem Content="3 - Нормальное"/>
-                            <ComboBoxItem Content="4 - Хорошее"/>
-                            <ComboBoxItem Content="5 - Отличное"/>
-                        </ComboBox>
+                    <Border Margin="0 0 0 10" Padding="15" Background="#FDF6F0" CornerRadius="10" BorderThickness="1" BorderBrush="#EDE1D5">
+                        <StackPanel>
+                            <TextBlock Text="Самочувствие и настроение" FontWeight="Bold" Margin="0 0 0 10"/>
+                            <ComboBox Name="ComboBoxWellBeing" Height="25" Margin="0 0 0 5"  BorderBrush="#EDE1D5" BorderThickness="1">
+                                <ComboBoxItem Content="1 - Плохое"/>
+                                <ComboBoxItem Content="2 - Удовлетворительное"/>
+                                <ComboBoxItem Content="3 - Нормальное"/>
+                                <ComboBoxItem Content="4 - Хорошее"/>
+                                <ComboBoxItem Content="5 - Отличное"/>
+                            </ComboBox>
 
-                        <TextBlock Text="Заметки"/>
-                        <TextBox Name="BoxNotes" Height="60" VerticalScrollBarVisibility="Auto"/>
-                    </StackPanel>
-                </GroupBox>
-                <GroupBox Header="Симптомы" Margin="0 10 0 10">
-                    <StackPanel Margin="10">
-                        <ItemsControl Name="SymptomsItems">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected}" Tag="{Binding Id}" Margin="0 2"/>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                            
-                        </ItemsControl>
-                    </StackPanel>
-                </GroupBox>
-                
-
-                <GroupBox Header="Сон" Margin="0 10 0 10">
-                    <StackPanel Margin="10">
-                        <StackPanel Orientation="Horizontal" Margin="0 0 0 5">
-                            <TextBlock Text="Время отхода ко сну:" VerticalAlignment="Center" Margin="0 0 5 0"/>
-                            <TextBox Name="BoxSleepStart" Width="60" Height="25" Margin="0 0 5 0"/>
-                            <TextBlock Text="чч:мм" VerticalAlignment="Center"></TextBlock>
+                            <TextBlock Text="Заметки" Margin="0 5 0 5"/>
+                            <Border Background="#FDF6F0" BorderBrush="#EDE1D5" BorderThickness="1" CornerRadius="8">
+                                <TextBox Name="BoxNotes" Height="60" Background="Transparent" BorderThickness="0" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto"/>
+                            </Border>
                         </StackPanel>
-                        <StackPanel Orientation="Horizontal" Margin="0 5 0 10">
-                            <TextBlock Text="Время пробуждения:" VerticalAlignment="Center" Margin="0 0 5 0"/>
-                            <TextBox Name="BoxSleepEnd" Width="60" Height="25" Margin="0 0 5 0"/>
-                            <TextBlock Text="чч:мм" VerticalAlignment="Center"/>
+                    </Border>
+                    <Border Margin="0 0 0 10" Padding="15" Background="#FDF6F0" CornerRadius="10" BorderThickness="1" BorderBrush="#EDE1D5">
+                        <StackPanel>
+                            <TextBlock Text="Симптомы" FontWeight="Bold" Margin="0 0 0 10"/>
+                            <ListView Name="SymptomsItems" BorderThickness="0" Background="Transparent">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Margin="0 3" Padding="8 5" CornerRadius="8">
+                                            <CheckBox Content="{Binding Name}" IsChecked="{Binding IsSelected}" Tag="{Binding Id}"/>
+                                        </Border>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
                         </StackPanel>
-                        <TextBlock Text="Качество сна" VerticalAlignment="Center" />
-                        <ComboBox Name="ComboBoxSleepQuality" Height="25" Margin="0 5 0 0">
-                            <ComboBoxItem Content="1 - Очень плохо"/>
-                            <ComboBoxItem Content="2 - Плохо"/>
-                            <ComboBoxItem Content="3 - Нормально"/>
-                            <ComboBoxItem Content="4 - Хорошо"/>
-                            <ComboBoxItem Content="5 - Отлично"/>
-                        </ComboBox>
-                        <TextBlock Text="Количество ночных пробуждений" Margin="0 10 0 5"/>
-                        <TextBox Name="BoxNightAwakening" Height="25" Width="60" HorizontalAlignment="Left" Text="0"/>
-                    </StackPanel>
-                </GroupBox>
+                    </Border>
 
-                <GroupBox Header="Физическая активность" Margin="0 10 0 10">
-                    <StackPanel Margin="10">
-                        <StackPanel Orientation="Horizontal">
-                            <TextBox Name="BoxSteps" Height="25" Width="100" HorizontalAlignment="Left"/>
-                            <TextBlock Text="шагов" VerticalAlignment="Center" Margin="5 0 0 0"/>
+
+                    <Border Margin="0 0 0 10" Padding="15" Background="#FDF6F0" CornerRadius="10" BorderThickness="1" BorderBrush="#EDE1D5">
+                        <StackPanel>
+                            <TextBlock Text="Сон" FontWeight="Bold" Margin="0 0 0 10"/>
+                            <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
+                                <TextBlock Text="Время отхода ко сну:" VerticalAlignment="Center" Margin="0 0 5 0"/>
+                                <TextBox Name="BoxSleepStart" Width="60" Height="25" Margin="0 0 5 0" BorderBrush="#EDE1D5" BorderThickness="1"/>
+                                <TextBlock Text="чч:мм" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal" Margin="0 0 0 10">
+                                <TextBlock Text="Время пробуждения:" VerticalAlignment="Center" Margin="0 0 5 0"/>
+                                <TextBox Name="BoxSleepEnd" Width="60" Height="25" Margin="0 0 5 0" BorderBrush="#EDE1D5" BorderThickness="1"/>
+                                <TextBlock Text="чч:мм" VerticalAlignment="Center"/>
+                            </StackPanel>
+                            <TextBlock Text="Качество сна" Margin="0 5 0 5" VerticalAlignment="Center"/>
+                            <ComboBox Name="ComboBoxSleepQuality" Height="25" Margin="0 0 0 10" BorderBrush="#EDE1D5" BorderThickness="1">
+                                <ComboBoxItem Content="1 - Очень плохо"/>
+                                <ComboBoxItem Content="2 - Плохо"/>
+                                <ComboBoxItem Content="3 - Нормально"/>
+                                <ComboBoxItem Content="4 - Хорошо"/>
+                                <ComboBoxItem Content="5 - Отлично"/>
+                            </ComboBox>
+                            <TextBlock Text="Количество ночных пробуждений" Margin="0 10 0 5"/>
+                            <TextBox Name="BoxNightAwakening" Height="25" Width="60" HorizontalAlignment="Left" Text="0" BorderBrush="#EDE1D5" BorderThickness="1"/>
                         </StackPanel>
-                    </StackPanel>
-                </GroupBox>
-            </StackPanel>
-        </ScrollViewer>
+                    </Border>
+
+                    <Border Margin="0 0 0 10" Padding="15" Background="#FDF6F0" CornerRadius="10" BorderThickness="1" BorderBrush="#EDE1D5">
+                        <StackPanel>
+                            <TextBlock Text="Физическая активность" FontWeight="Bold" Margin="0 0 0 10"/>
+                            <StackPanel Orientation="Horizontal">
+                                <TextBox Name="BoxSteps" Height="25" Width="80" HorizontalAlignment="Left" BorderBrush="#EDE1D5" BorderThickness="1"/>
+                                <TextBlock Text="шагов" VerticalAlignment="Center" Margin="5 0 0 0" />
+                            </StackPanel>
+                        </StackPanel>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+        </Border>
+        
 
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0 20 0 0">
-            <Button Name="SaveButton" Content="Сохранить" Click="SaveButton_Click" Width="100" Height="30" Margin="0 0 10 0" 
-                Background="White" Foreground="Black" BorderThickness="0"/>
-            <Button Name="CancelButton" Content="Отмена" Click="CancelButton_Click" Width="100" Height="30"
-                Background="White" Foreground="Black" BorderThickness="0"/>
+            <Button Name="SaveButton" Content="💾 Сохранить"  Click="SaveButton_Click" Width="100" Height="30" Margin="0 0 10 0" 
+                Background="#9B8BEA" Foreground="White" BorderThickness="0"/>
+            <Button Name="CancelButton" Content="❌ Отмена" Click="CancelButton_Click" Width="100" Height="30"
+                Background="White" BorderBrush="#EDE1D5" BorderThickness="1"/>
         </StackPanel>
     </Grid>
 </Window>

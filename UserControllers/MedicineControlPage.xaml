@@ -5,48 +5,57 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WellBeingDiary.UserControllers"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="600">
-    <Grid Margin="20">
+             d:DesignHeight="600" d:DesignWidth="600"
+             Background="#FFF9F5">
+    <Grid Margin="15">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <TextBlock Grid.Row="0" Text="Контроль лекарств" FontSize="18" FontWeight="Bold" Margin="0 0 0 20"/>
-        <StackPanel Grid.Row="1">
-            <Button Name="AddMedicineButton" Content="Добавить лекарство" Click="AddMedicineButton_Click" Width="120" Height="30" Margin="0 0 0 10" HorizontalAlignment="Left"
-                     Background="White" Foreground="Black" BorderThickness="0"/>
-            <ListBox Name="MedicinesListBox" ItemsSource="{Binding Medicines}" Height="300" Margin="0 0 0 10">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <Border BorderBrush="LightGray" BorderThickness="1" Margin="2" Padding="5" CornerRadius="10">
-                            <StackPanel>
-                                <TextBlock Text="{Binding MedicineName}" FontWeight="Bold"/>
-                                <TextBlock Text="{Binding Dose}"/>
-                                <TextBlock Text="{Binding Instructions}"/>
-                                <TextBlock>
-                                    <Run Text="с"/>
-                                    <Run Text="{Binding StartDate, StringFormat=\{0:dd.MM.yyyy\}}"/>
-                                </TextBlock>
-                                <TextBlock>
-                                    <Run Text="Сейчас принимается: "/>
-                                    <Run Text="{Binding IsActiveText, Mode=OneWay}"/>
-                                </TextBlock>
-                                <TextBlock>
-                                    <Run Text="Время приема: "/>
-                                    <Run Text="{Binding IntakeTime}"/>
-                                </TextBlock>
-                            </StackPanel>
-                        </Border>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-        </StackPanel>
+        <TextBlock Grid.Row="0" Text="💊 Контроль лекарств" FontSize="18" FontWeight="Bold" Margin="0 0 0 20"/>
+        <Border Grid.Row="1" Background="White" CornerRadius="10" Padding="15">
+            <StackPanel>
+                <Button Name="AddMedicineButton" Content="➕ Добавить лекарство" Click="AddMedicineButton_Click" Width="140" Height="30" Margin="0 0 0 10" HorizontalAlignment="Left"
+                    Background="#9B8BEA" Foreground="White" BorderThickness="0"/>
+
+                <Border BorderBrush="#EDE1D5" CornerRadius="8" Height="350" Background="#FFF9F5" BorderThickness="1">
+                    <ListBox Name="MedicinesListBox" Background="Transparent" BorderThickness="0" ItemsSource="{Binding Medicines}" Height="300" Margin="0 0 0 10">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <Border Background="White" BorderBrush="#EDE1D5" BorderThickness="1" Margin="2" Padding="15" CornerRadius="10">
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding MedicineName}" FontWeight="Bold" Margin="0 0 0 5"/>
+                                        <TextBlock Text="{Binding Dose}" Foreground="#7F8C8D" Margin="0 0 0 3"/>
+                                        <TextBlock Text="{Binding Instructions}" Foreground="#7F8C8D" Margin="0 0 0 3" TextWrapping="Wrap"/>
+                                        <TextBlock>
+                                                <Run Text="с" Foreground="#7F8C8D"/>
+                                                <Run Text="{Binding StartDate, StringFormat=\{0:dd.MM.yyyy\}}" Foreground="#7F8C8D"/>
+                                        </TextBlock>
+                                        <TextBlock>
+                                                <Run Text="Сейчас принимается: " Foreground="#7F8C8D"/>
+                                                <Run Text="{Binding IsActiveText, Mode=OneWay}" Foreground="#9B8BEA"/>
+                                        </TextBlock>
+
+                                        <TextBlock>
+                                            <Run Text="Время приема: " Foreground="#7F8C8D"/>
+                                            <Run Text="{Binding IntakeTime}" Foreground="#9B8BEA"/>
+                                        </TextBlock>
+                                    </StackPanel>
+                                </Border>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </Border>
+                    
+            </StackPanel>
+            
+        </Border>
         <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
-            <Button Name="EditButton" Content="Редактировать" Click="EditButton_Click" Width="100" Height="30" Margin="0 0 10 0" 
-                    Background="White" Foreground="Black" BorderThickness="0"/>
-            <Button Name="DeleteButton" Content="Удалить" Click="DeleteButton_Click" Width="100" Height="30" 
-                    Background="White" Foreground="Black" BorderThickness="0"/>
+            <Button Name="EditButton" Content="✎ Редактировать" Click="EditButton_Click" Width="100" Height="30" Margin="0 0 10 0" 
+                    Background="#FFD166" BorderThickness="0"/>
+            <Button Name="DeleteButton" Content="🗑️ Удалить" Click="DeleteButton_Click" Width="100" Height="30" 
+                    Background="#FF6B6B" Foreground="#FFFFFF" BorderThickness="0"/>
         </StackPanel>
     </Grid>
 </UserControl>
