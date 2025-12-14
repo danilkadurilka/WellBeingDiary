@@ -68,6 +68,16 @@ namespace WellBeingDiary.Windows
                     MessageBox.Show("Рост должен быть целым числом");
                     return false;
                 }
+                catch (OverflowException)
+                {
+                    MessageBox.Show("Введите корректное значение!");
+                    return false;
+                }
+            }
+            else if (string.IsNullOrWhiteSpace(BoxHeight.Text))
+            {
+                MessageBox.Show("Заполните ваш рост!");
+                return false;
             }
             if (!string.IsNullOrWhiteSpace(BoxWeight.Text))
             {
@@ -85,6 +95,16 @@ namespace WellBeingDiary.Windows
                     MessageBox.Show("Вес должен быть числом");
                     return false;
                 }
+                catch (OverflowException)
+                {
+                    MessageBox.Show("Введите корректное значение!");
+                    return false;
+                }
+            }
+            else if (string.IsNullOrWhiteSpace(BoxWeight.Text))
+            {
+                MessageBox.Show("Заполните ваш вес!");
+                return false;
             }
             if (DPBirthDate.SelectedDate.HasValue)
             {
@@ -145,12 +165,12 @@ namespace WellBeingDiary.Windows
                 {
                     string extension = System.IO.Path.GetExtension(selectedImagePath);
                     string fileName = $"{newUser.Id}_{newUser.Login}{extension}";
-                    string imagePath = "../Images/" + fileName;
+                    string imagePath = "./Images/" + fileName;
                     System.IO.File.Copy(selectedImagePath, imagePath, true);
                     newUser.PhotoPath = imagePath;
                 }
                 else
-                    newUser.PhotoPath = "../Images/none.png";
+                    newUser.PhotoPath = "./Images/none.png";
                 _context.Users.Add(newUser);
                 _context.SaveChanges();
                 MessageBox.Show("Регистрация завершена!");
